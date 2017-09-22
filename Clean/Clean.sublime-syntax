@@ -190,7 +190,7 @@ contexts:
           scope: punctuation.definition.comment.end.clean
           pop: true
   comments:
-    - match: '--'
+    - match: '//'
       scope: punctuation.definition.comment.clean
       push:
         - meta_scope: comment.line.double-dash.clean
