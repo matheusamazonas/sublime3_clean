@@ -176,17 +176,17 @@ contexts:
     - match: ","
       scope: punctuation.separator.comma.clean
   block_comment:
-    - match: '\{-(?!#)'
+    - match: '\/\*(?!#)'
       scope: punctuation.definition.comment.begin.clean
       push:
         - meta_scope: comment.block.clean
-        - match: '\{-#'
+        - match: '\/\*'
           push:
-            - match: '-\}'
+            - match: '\*\/'
               pop: true
             - include: block_comment
         - include: block_comment
-        - match: '-\}'
+        - match: '\*\/'
           scope: punctuation.definition.comment.end.clean
           pop: true
   comments:
