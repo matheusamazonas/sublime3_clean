@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Indent Patterns</string>
 	<key>scope</key>
-	<string>source.haskell</string>
+	<string>source.clean</string>
 	<key>settings</key>
 	<dict>
 		<key>increaseIndentPattern</key>

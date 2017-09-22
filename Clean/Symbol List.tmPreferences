@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string>source.haskell entity.name.function - entity.name.function.infix</string>
+	<string>source.clean entity.name.function - entity.name.function.infix</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
