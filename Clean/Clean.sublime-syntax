@@ -21,14 +21,9 @@ contexts:
         1: keyword.other.clean
       push:
         - meta_scope: meta.declaration.module.clean
-        - match: (where)
-          captures:
-            1: keyword.other.clean
+        - match: ($|;)
           pop: true
         - include: module_name
-        - include: module_exports
-        - match: "[a-z]+"
-          scope: invalid
     - match: \b(class)\b
       captures:
         1: keyword.other.clean
@@ -223,7 +218,7 @@ contexts:
           scope: meta.other.unknown.clean
         - include: comments
   module_name:
-    - match: "[A-Z][A-Za-z._']*"
+    - match: "[A-Za-z][A-Za-z0-9._']*"
       scope: support.other.module.clean
   pragma:
     - match: '\{-#'
