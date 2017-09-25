@@ -70,7 +70,7 @@ contexts:
           pop: true
         - match: '\b[A-Z][a-zA-Z_'']*'
           scope: entity.other.inherited-class.clean
-    - match: \b(deriving|where|data|type|case|of|let|in|newtype|default)\b
+    - match: \b(deriving|where|case|of|let|in|default)\b
       scope: keyword.other.clean
     - match: '\binfix[lr]?\b'
       scope: keyword.operator.clean
@@ -159,7 +159,7 @@ contexts:
         - meta_scope: meta.function.type-declaration.clean
         - match: |-
             (?x)
-                ^(data|newtype|type|class|deriving)\s  # When a top level declaration starts
+                (^(class|deriving)\s  # When a top level declaration starts
               | ^[^=]*(=)[\sa-zA-Z0-9_\(]                # A function declaration
           captures:
             1: keyword.other.clean
