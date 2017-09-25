@@ -161,6 +161,7 @@ contexts:
             (?x)
                 (^(class|deriving)\s  # When a top level declaration starts
               | ^[^=]*(=)[\sa-zA-Z0-9_\(]                # A function declaration
+              )?
           captures:
             1: keyword.other.clean
             2: keyword.operator.clean
