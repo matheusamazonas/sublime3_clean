@@ -239,6 +239,8 @@ contexts:
       scope: variable.other.generic-type.clean
     - match: '\b[A-Z][a-zA-Z0-9_'']*\b'
       scope: storage.type.clean
+    - match: '\|'
+      scope: keyword.other.given_that.clean
     - match: \(\)
       scope: support.constant.unit.clean
     - include: comments
