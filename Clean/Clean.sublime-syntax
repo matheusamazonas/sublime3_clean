@@ -74,7 +74,7 @@ contexts:
       scope: keyword.other.clean
     - match: '\binfix[lr]?\b'
       scope: keyword.operator.clean
-    - match: \b(do|if|then|else)\b
+    - match: \b(if)\b
       scope: keyword.control.clean
     - match: '\b([0-9]+\.[0-9]+([eE][+-]?[0-9]+)?|[0-9]+[eE][+-]?[0-9]+)\b'
       comment: Floats are always decimal
