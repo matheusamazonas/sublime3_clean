@@ -81,12 +81,6 @@ contexts:
       scope: constant.numeric.float.clean
     - match: '\b([0-9]+|0([xX][0-9a-fA-F]+|[oO][0-7]+))\b'
       scope: constant.numeric.clean
-    - match: ^\s*(#)\s*\w+
-      comment: In addition to clean's "native" syntax, GHC permits the C preprocessor to be run on a source file.
-      scope: meta.preprocessor.c
-      captures:
-        1: punctuation.definition.preprocessor.c
-    - include: pragma
     - match: '"'
       scope: punctuation.definition.string.begin.clean
       push:
@@ -221,16 +215,7 @@ contexts:
   module_name:
     - match: "[A-Za-z][A-Za-z0-9._']*"
       scope: support.other.module.clean
-  pragma:
-    - match: '\{-#'
-      push:
-        - meta_scope: meta.preprocessor.clean
-        - match: '#-\}'
-          pop: true
-        - match: \b(LANGUAGE|OPTIONS_GHC|INCLUDE|WARNING|DEPRECATED|MINIMAL|UNPACK|NOUNPACK|SOURCE|OVERLAPPING|OVERLAPPABLE|OVERLAPS|INCOHERENT|INLINE|NOINLINE|INLINABLE|CONLIKE|LINE|RULES|SPECIALIZE|SPECIALISE)\b
-          scope: keyword.other.preprocessor.clean
   type_signature:
-    - include: pragma
     - match: "(->|→)"
       scope: keyword.other.arrow.clean
     - match: "(=>|⇒)"
