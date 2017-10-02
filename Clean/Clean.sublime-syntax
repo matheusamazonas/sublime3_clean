@@ -49,6 +49,9 @@ contexts:
             1: keyword.other.clean
           pop: true
         - include: type_signature
+    - match: \b(generic)\b
+      captures:
+        1: keyword.other.clean
     - match: \b(import)\b
       captures:
         1: keyword.other.clean
