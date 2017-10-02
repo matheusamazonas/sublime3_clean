@@ -1,5 +1,5 @@
 {
 	"file_regex": "^(...*?):([0-9]*):?([0-9]*)",
-	"shell_cmd": "echo \"---- Compiling ----\" && clm -IL ../lib/StdLib \"$file_base_name\" -o \"$file_base_name\" && echo \"---- Executing ----\" && ./$file_base_name && rm \"$file_base_name\"", 
+	"shell_cmd": "echo \"---- Compiling ----\" && clm -IL ../lib/StdLib -IL ../lib/Generics \"$file_base_name\" -o \"$file_base_name\" && echo \"---- Executing ----\" && ./$file_base_name && rm \"$file_base_name\"", 
 	"selector": "source.clean"
 }
