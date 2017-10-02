@@ -29,7 +29,7 @@ contexts:
         1: keyword.other.clean
       push:
         - meta_scope: meta.declaration.class.clean
-        - match: \b(where)\b
+        - match: \b(where)?\b
           captures:
             1: keyword.other.clean
           pop: true
