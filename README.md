@@ -1,6 +1,8 @@
 # Sublime3 Package for Clean
 A [Sublime3](https://www.sublimetext.com) package for the functional programming language [Clean](http://clean.cs.ru.nl/Clean).
 
+I decided to restart the package from scratch instead of just adapting the Haskell one. I'm currently working on better build tools with both CLM and CPM support. That work is currently on the "revamp" branch. I'll keep the adapted version on the "master" branch and slowly merge it into "master".
+
 So far, the package only contains (incomplete) syntax highlighting and building tools. It's still under development, but on a really slow pace.
 
 Installation
