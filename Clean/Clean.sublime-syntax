@@ -8,6 +8,28 @@ scope: source.clean
 contexts:
   main:
     - include: module_declaration
+    - include: comments
+  comments:
+    - include: line_comments
+    - include: block_comments
+  line_comments:
+    - match: (\/\/)
+      captures:
+        1: punctuation.definition.comment.clean
+      push:
+        - meta_scope: comment.line.clean
+        - match: \n
+          pop: true
+  block_comments:
+    - match: (\/\*)
+      captures: 
+        1: punctuation.definition.comment.clean
+      push:
+        - meta_scope: comment.block.clean
+        - match: (\*\/)
+          captures:
+            1: punctuation.definition.comment.clean
+          pop: true
   module_declaration:
     - match: ^(implementation\s+|definition\s+|system\s+)?(module)\b
       scope: meta.declaration.module.clean
@@ -21,5 +43,5 @@ contexts:
           pop: true
   module_name:
     - match: "[A-Za-z][A-Za-z0-9._']*$"
-      scope: entity.name.namespace
+      scope: entity.name.namespace.clean
 
