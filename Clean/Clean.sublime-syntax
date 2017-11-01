@@ -7,6 +7,8 @@ file_extensions: [icl, dcl]
 scope: source.clean
 contexts:
   main:
+    - include: module_declaration
+  module_declaration:
     - match: ^(implementation\s+|definition\s+|system\s+)?(module)\b
       scope: meta.declaration.module.clean
       captures:
@@ -19,4 +21,5 @@ contexts:
           pop: true
   module_name:
     - match: "[A-Za-z][A-Za-z0-9._']*$"
+      scope: entity.name.namespace
 
