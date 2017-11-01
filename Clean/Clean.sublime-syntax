@@ -5,10 +5,59 @@
 name: Clean
 file_extensions: [icl, dcl]
 scope: source.clean
+
+variables:
+  module_name: "([A-Za-z][A-Za-z0-9._']*)"
+  valid_name: "([A-Za-z][A-Za-z0-9_']*)"
+
 contexts:
   main:
     - include: module_declaration
     - include: comments
+    - include: imports
+  imports:
+    - include: qualified_import
+    - include: simple_import
+    - include: from_import
+  qualified_import:
+    - match: ^(import)\s+(qualified)\s+
+      captures:
+        1: keyword.control.import.clean
+        2: keyword.control.import.clean
+      push:
+        - meta_scope: meta.import.clean
+        - match: '{{module_name}}\s+(as)\s+{{module_name}}'
+          captures:
+            1: entity.name.namespace.clean
+            2: keyword.control.import.clean
+            3: entity.name.namespace.clean
+        - match: ($|;)
+          pop: true
+  from_import:
+    - match: ^(from)\s+
+      captures:
+        1: keyword.control.import.clean
+      push:
+        - meta_scope: meta.import.clean
+        - match: '{{module_name}}\s+(import)\s+({{valid_name}}(,\s*)?)+'
+          captures:
+            1: entity.name.namespace.clean
+            2: keyword.control.import.clean
+        - match: ($|;)
+          pop: true
+  importable:
+    - include: valid_name
+  simple_import:
+    - match: ^(import)\s+
+      captures:
+        1: keyword.control.import.clean
+      push:
+        - meta_scope: meta.import.clean
+        - match: '{{module_name}}'
+          captures:
+            1: entity.name.namespace.clean
+        - match: ($|;)
+          pop: true
   comments:
     - include: line_comments
     - include: block_comments
@@ -32,16 +81,14 @@ contexts:
           pop: true
   module_declaration:
     - match: ^(implementation\s+|definition\s+|system\s+)?(module)\b
-      scope: meta.declaration.module.clean
       captures:
         1: keyword.other.clean
         2: keyword.other.clean
       push: 
-        - meta_scope: meta.name.module.clean
-        - include: module_name
+        - meta_scope: meta.declaration.module.clean
+        - match: '{{module_name}}'
+          captures:
+            1: entity.name.namespace.clean
         - match: ($|;)
           pop: true
-  module_name:
-    - match: "[A-Za-z][A-Za-z0-9._']*$"
-      scope: entity.name.namespace.clean
 
