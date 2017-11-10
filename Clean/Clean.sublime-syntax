@@ -8,13 +8,53 @@ scope: source.clean
 
 variables:
   module_name: "([A-Za-z][A-Za-z0-9._']*)"
-  valid_name: "([A-Za-z][A-Za-z0-9_']*)"
-
+  valid_name: "(?:[A-Za-z][A-Za-z0-9_']*)"
+  many_valid_names: '({{valid_name}}(,\s*)?)+'
 contexts:
   main:
     - include: module_declaration
     - include: comments
     - include: imports
+  function_import:
+    - match: ({{valid_name}})
+      captures:
+        1: entity.name.function
+  type_import:
+    - match: '(::)\s*({{valid_name}})\s*(?:\(({{many_valid_names}})\))?,?'
+      captures:
+        1: keyword.other.clean
+        2: entity.name.type.clean
+    - match: '(::)\s*({{valid_name}})\s*(?:\{({{many_valid_names}})\})?'
+      captures:
+        1: keyword.other.clean
+        2: entity.name.type.clean
+    - match: '(::)\s*({{valid_name}})\s*(?:\((\.\.)\))?,?'
+      captures:
+        1: keyword.other.clean
+        2: entity.name.type.clean
+    - match: '(::)\s*({{valid_name}})\s*(?:\{(\.\.)\})?'
+      captures:
+        1: keyword.other.clean
+        2: entity.name.type.clean
+  class_import:
+    - match: '(class)\s+({{valid_name}})'
+      captures:
+        1: keyword.other.clean
+        2: entity.name.class.clean
+    - match: '(class)\s+({{valid_name}})\(\.\.\)'
+      captures:
+        1: keyword.other.clean
+        2: entity.name.class.clean
+    - match: '(class)\s+({{valid_name}})\(many_valid_names\)'
+      captures:
+        1: keyword.other.clean
+        2: entity.name.class.clean
+  instance_import:
+    - match: '(instance)\s+({{valid_name}})\s+((?:{{valid_name}}\s+)+)'
+      captures:
+        1: keyword.other.clean
+        2: entity.name.class.clean
+        3: entity.name.type.clean
   imports:
     - include: qualified_import
     - include: simple_import
@@ -39,10 +79,14 @@ contexts:
         1: keyword.control.import.clean
       push:
         - meta_scope: meta.import.clean
-        - match: '{{module_name}}\s+(import)\s+({{valid_name}}(,\s*)?)+'
+        - match: '{{module_name}}\s+(import)\s+'
           captures:
             1: entity.name.namespace.clean
             2: keyword.control.import.clean
+        - include: class_import
+        - include: instance_import
+        - include: type_import
+        - include: function_import
         - match: ($|;)
           pop: true
   importable:
