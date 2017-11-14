@@ -17,6 +17,7 @@ contexts:
     - include: comments
     - include: imports
     - include: function_type_decl
+    - include: operators
   function_import:
     - match: ({{upper_case_id}})
       captures:
@@ -167,6 +168,11 @@ contexts:
     - match: '({{upper_case_id}})'
       captures:
         1: storage.type.clean
+  operators:
+    - match: '([><=|&%$+-/\\\*~@%#\:]+)'
+    #- match: '(>>\=|>>\*|>>\||->|\+|\-|\=|\:|\:\=\=|\=\:|\\)'
+      captures:
+        1: keyword.operator.clean
 
 
 
