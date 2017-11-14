@@ -167,6 +167,10 @@ contexts:
         - match: ($|;)
           pop: true
   type_signature: 
+    - match: '(\|)'
+      captures:
+        1: keyword.other.given_that.clean
+      pop: true
     - match: (->|→)
       captures:
         1: keyword.other.arror.clean
@@ -176,9 +180,6 @@ contexts:
     - match: '(\*)'
       captures:
         1: keyword.other.unique.clean
-    - match: '(\|)'
-      captures:
-        1: keyword.other.given_that.clean
     - match: '({{lower_case_id}})'
       captures:
         1: variable.parameter.clean
