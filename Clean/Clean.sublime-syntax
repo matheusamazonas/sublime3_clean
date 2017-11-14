@@ -22,7 +22,7 @@ contexts:
     - include: control_keywords
     - include: local_def_keywords
     - include: operators
-    - include: string
+    - include: basic_types
   function_import:
     - match: ({{upper_case_id}})
       captures:
@@ -188,13 +188,6 @@ contexts:
     - match: '({{operator}})'
       captures:
         1: keyword.operator.clean
-  string:
-    - match: (\".*\")
-      captures:
-        1: string.quoted.double.clean
-    - match: (\'.*\')
-      captures:
-        1: string.quoted.single.clean
   control_keywords:
     - match: \b(if|case|of)\b
       captures:
@@ -203,6 +196,39 @@ contexts:
     - match: \b(where|with|#|let|in)\b
       captures:
         1: keyword.other.clean
+  class_def:
+    - match: '(class)\s+({{upper_case_id}}|{{operator}})\s+({{lower_case_id}})\s+(where)'
+      scope: meta.class.clean
+      captures:
+        1: keyword.other.clean
+        2: entity.name.class.clean
+        3: variable.parameter.clean
+        4: keyword.other.clean
+  basic_types:
+    - match: (\".*\")
+      captures:
+        1: string.quoted.double.clean
+    - match: (\'.*\')
+      captures:
+        1: string.quoted.single.clean
+    - match: '((?:-)?[0-9]+\.[0-9]+(?:E(?:-)?[0-9]+)?)'
+      captures:
+        1: constant.numeric.float.clean
+    - match: '((?:-)?[1-9]+[0-9]*)'
+      captures:
+        1: constant.numeric.integer.clean
+    - match: '((?:-)?0x[0-9A-F]+)'
+      captures:
+        1: constant.numeric.hex.clean
+    - match: '((?:-)?0[0-9]+)'
+      captures:
+        1: constant.numeric.octal.clean
+    - match: (True|False)
+      captures:
+        1: constant.language.clean
+
+
+
 
 
 
