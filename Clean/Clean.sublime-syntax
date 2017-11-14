@@ -153,6 +153,17 @@ contexts:
         - include: type_signature
         - match: ($|;)
           pop: true
+    - match: '(\({{operator}}\))\s+(infix(?:r|l)?)\s+([0-9])+\s+(::|∷)'
+      scope: meta.function_decl.clean
+      captures:
+        1: entity.name.function.infix.clean
+        2: keyword.other.clean
+        3: variable.other.constant.clean
+        4: keyword.other.double-colon.clean
+      push:
+        - include: type_signature
+        - match: ($|;)
+          pop: true
   type_signature: 
     - match: (->|→)
       captures:
