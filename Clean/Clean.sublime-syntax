@@ -75,13 +75,12 @@ contexts:
         - match: ($|;)
           pop: true
   from_import:
-    - match: ^(from)\s+
+    - match: ^(from)\s+({{module_name}})
       captures:
         1: keyword.control.import.clean
+        2: entity.name.namespace.clean
       push:
         - meta_scope: meta.from_import.clean
-          captures:
-            1: entity.name.namespace.clean
         - match: '(import)'
           captures:
             1: keyword.control.import.clean
