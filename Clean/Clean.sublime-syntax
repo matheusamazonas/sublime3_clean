@@ -8,49 +8,51 @@ scope: source.clean
 
 variables:
   module_name: "([A-Za-z][A-Za-z0-9._']*)"
-  valid_name: "(?:[A-Za-z][A-Za-z0-9_']*)"
-  many_valid_names: '({{valid_name}}(,\s*)?)+'
+  upper_case_id: "(?:[A-Za-z][A-Za-z0-9_']*)"
+  lower_case_id: "(?:[a-z][A-Za-z0-9_']*)"
+  many_upper_case_ids: '({{upper_case_id}}(,\s*)?)+'
 contexts:
   main:
     - include: module_declaration
     - include: comments
     - include: imports
+    - include: function_type_decl
   function_import:
-    - match: ({{valid_name}})
+    - match: ({{upper_case_id}})
       captures:
         1: entity.name.function
   type_import:
-    - match: '(::)\s*({{valid_name}})\s*(?:\(({{many_valid_names}})\))?,?'
+    - match: '(::)\s*({{upper_case_id}})\s*(?:\(({{many_upper_case_ids}})\))?,?'
       captures:
         1: keyword.other.clean
         2: entity.name.type.clean
-    - match: '(::)\s*({{valid_name}})\s*(?:\{({{many_valid_names}})\})?'
+    - match: '(::)\s*({{upper_case_id}})\s*(?:\{({{many_upper_case_ids}})\})?'
       captures:
         1: keyword.other.clean
         2: entity.name.type.clean
-    - match: '(::)\s*({{valid_name}})\s*(?:\((\.\.)\))?,?'
+    - match: '(::)\s*({{upper_case_id}})\s*(?:\((\.\.)\))?,?'
       captures:
         1: keyword.other.clean
         2: entity.name.type.clean
-    - match: '(::)\s*({{valid_name}})\s*(?:\{(\.\.)\})?'
+    - match: '(::)\s*({{upper_case_id}})\s*(?:\{(\.\.)\})?'
       captures:
         1: keyword.other.clean
         2: entity.name.type.clean
   class_import:
-    - match: '(class)\s+({{valid_name}})'
+    - match: '(class)\s+({{upper_case_id}})'
       captures:
         1: keyword.other.clean
         2: entity.name.class.clean
-    - match: '(class)\s+({{valid_name}})\(\.\.\)'
+    - match: '(class)\s+({{upper_case_id}})\(\.\.\)'
       captures:
         1: keyword.other.clean
         2: entity.name.class.clean
-    - match: '(class)\s+({{valid_name}})\(many_valid_names\)'
+    - match: '(class)\s+({{upper_case_id}})\(many_upper_case_ids\)'
       captures:
         1: keyword.other.clean
         2: entity.name.class.clean
   instance_import:
-    - match: '(instance)\s+({{valid_name}})\s+((?:{{valid_name}}\s+)+)'
+    - match: '(instance)\s+({{upper_case_id}})\s+((?:{{upper_case_id}}\s+)+)'
       captures:
         1: keyword.other.clean
         2: entity.name.class.clean
@@ -136,4 +138,36 @@ contexts:
             1: entity.name.namespace.clean
         - match: ($|;)
           pop: true
+  function_type_decl:
+    - match: '({{lower_case_id}}|{{upper_case_id}})\s+(::|∷)'
+      scope: meta.function_decl.clean
+      captures:
+        1: entity.name.function.clean
+        2: keyword.other.double-colon.clean
+      push:
+        - include: type_signature
+        - match: ($|;)
+          pop: true
+  type_signature: 
+    - match: (->|→)
+      captures:
+        1: keyword.other.arror.clean
+    - match: (\!)
+      captures:
+        1: keyword.other.strict.clean
+    - match: '(\*)'
+      captures:
+        1: keyword.other.unique.clean
+    - match: '(\|)'
+      captures:
+        1: keyword.other.given_that.clean
+    - match: '({{lower_case_id}})'
+      captures:
+        1: variable.other.clean
+    - match: '({{upper_case_id}})'
+      captures:
+        1: storage.type.clean
+
+
+
 
