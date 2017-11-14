@@ -11,12 +11,15 @@ variables:
   upper_case_id: "(?:[A-Za-z][A-Za-z0-9_']*)"
   lower_case_id: "(?:[a-z][A-Za-z0-9_']*)"
   many_upper_case_ids: '({{upper_case_id}}(,\s*)?)+'
+  operator: '(?:[><=|&%$+-/\\\*~@%#\:^?]+)'
 contexts:
   main:
     - include: module_declaration
     - include: comments
     - include: imports
     - include: function_type_decl
+    - include: control_keywords
+    - include: local_def_keywords
     - include: operators
     - include: string
   function_import:
@@ -170,7 +173,7 @@ contexts:
       captures:
         1: storage.type.clean
   operators:
-    - match: '([><=|&%$+-/\\\*~@%#\:^?]+)'
+    - match: '({{operator}})'
       captures:
         1: keyword.operator.clean
   string:
@@ -180,6 +183,14 @@ contexts:
     - match: (\'.*\')
       captures:
         1: string.quoted.single.clean
+  control_keywords:
+    - match: \b(if|case|of)\b
+      captures:
+        1: keyword.other.clean
+  local_def_keywords:
+    - match: \b(where|with|#|let|in)\b
+      captures:
+        1: keyword.other.clean
 
 
 
