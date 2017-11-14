@@ -18,6 +18,7 @@ contexts:
     - include: imports
     - include: function_type_decl
     - include: operators
+    - include: string
   function_import:
     - match: ({{upper_case_id}})
       captures:
@@ -169,10 +170,16 @@ contexts:
       captures:
         1: storage.type.clean
   operators:
-    - match: '([><=|&%$+-/\\\*~@%#\:]+)'
-    #- match: '(>>\=|>>\*|>>\||->|\+|\-|\=|\:|\:\=\=|\=\:|\\)'
+    - match: '([><=|&%$+-/\\\*~@%#\:^?]+)'
       captures:
         1: keyword.operator.clean
+  string:
+    - match: (\".*\")
+      captures:
+        1: string.quoted.double.clean
+    - match: (\'.*\')
+      captures:
+        1: string.quoted.single.clean
 
 
 
