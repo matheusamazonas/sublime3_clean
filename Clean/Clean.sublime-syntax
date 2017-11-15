@@ -11,6 +11,7 @@ variables:
   upper_case_id: "(?:[A-Z][A-Za-z0-9_']*)"
   lower_case_id: "(?:[a-z][A-Za-z0-9_']*)"
   many_upper_case_ids: '({{upper_case_id}}(,\s*)?)+'
+  class_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
   operator: '(?:[><=|&%$+-/\\\*~@%#\:^?!]+)'
 contexts:
   main:
@@ -19,6 +20,7 @@ contexts:
     - include: imports
     - include: class_def
     - include: type_decl
+    - include: instance
     - include: function_type_decl
     - include: control_keywords
     - include: local_def_keywords
@@ -287,6 +289,14 @@ contexts:
       pop: true
     - match: (?=\b=\b)
       pop: true
+  instance:
+    - match: '(instance)\s+({{class_name}})\s+({{upper_case_id}})'
+      scope: meta.instance.clean
+      captures:
+        1: keyword.other.clean
+        2: entity.name.class.clean
+        3: entity.name.type.clean
+
 
 
 
