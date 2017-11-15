@@ -8,7 +8,7 @@ scope: source.clean
 
 variables:
   module_name: "([A-Za-z][A-Za-z0-9._']*)"
-  upper_case_id: "(?:[A-Za-z][A-Za-z0-9_']*)"
+  upper_case_id: "(?:[A-Z][A-Za-z0-9_']*)"
   lower_case_id: "(?:[a-z][A-Za-z0-9_']*)"
   many_upper_case_ids: '({{upper_case_id}}(,\s*)?)+'
   operator: '(?:[><=|&%$+-/\\\*~@%#\:^?]+)'
