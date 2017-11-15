@@ -68,7 +68,7 @@ contexts:
         1: keyword.other.clean
         2: entity.name.class.clean
   instance_import:
-    - match: '(instance)\s+({{upper_case_id}})\s+((?:{{upper_case_id}}\s+)+)'
+    - match: '(instance)\s+({{class_name}})\s+((?:{{upper_case_id}}\s*)+)'
       captures:
         1: keyword.other.clean
         2: entity.name.class.clean
@@ -106,8 +106,8 @@ contexts:
         - include: instance_import
         - include: type_import
         - include: function_import
-        - match: ($|;)
-          pop: true
+        - include: pop_if_new_import
+        - include: pop_if_new_def
   simple_import:
     - match: ^(import)\s+
       captures:
@@ -307,15 +307,20 @@ contexts:
             1: keyword.other.clean 
           pop: true
   pop_if_new_def:   # Unfortunately we need lookahead for this
-    - match: '(?=\s*::)'
+    - match: '^(?=\s*::)'
       pop: true
-    - match: '(?=^\s*{{lower_case_id}})'
+    - match: '^(?=^\s*{{lower_case_id}})'
       pop: true
     - match: ^$     # This one doesn't quite follow the language specs
       pop:  true   
-    - match: (?=\({{operator}}\))
+    - match: ^(?=\({{operator}}\))
       pop: true
-    - match: (?=\b=\b)
+    - match: ^(?=\b=\b)
+      pop: true
+  pop_if_new_import:
+    - match: '(?=from)'
+      pop: true
+    - match: '(?=import)'
       pop: true
   instance:
     - match: '(instance)\s+({{class_name}})'
