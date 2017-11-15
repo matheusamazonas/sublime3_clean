@@ -10,6 +10,7 @@ variables:
   special_char: '~|@|#|\$|%|\^|\?|!|\+|-|\*|<|>|\\|\/|\||&|=|:'
   lower_case_id: "(?:[a-z][A-Za-z0-9_']*)"
   upper_case_id: "(?:[A-Z][A-Za-z0-9_']*)"
+  func_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
   funny_id: '(?:{{special_char}})+'
   module_name: "([A-Za-z][A-Za-z0-9._']*)"
   class_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
@@ -23,6 +24,7 @@ contexts:
     - include: class_def
     - include: type_decl
     - include: instance
+    - include: derive
     - include: function_type_decl
     - include: control_keywords
     - include: local_def_keywords
@@ -31,7 +33,7 @@ contexts:
     - include: basic_types
     - include: qualified_module_name
   function_import:
-    - match: ({{upper_case_id}})
+    - match: ({{func_name}})
       captures:
         1: entity.name.function
   type_import:
@@ -298,6 +300,23 @@ contexts:
         1: keyword.other.clean
         2: entity.name.class.clean
         3: entity.name.type.clean
+  derive:
+    - match: '(derive)'
+      captures:
+        1: keyword.other.clean
+      push:
+        - meta_scope: meta.derive.clean
+        - match: (class)
+          captures: 
+            1: keyword.other.
+        - match: '({{func_name}})|({{class_name}})\s+({{upper_case_id}})+'
+          captures:
+            1: entity.name.function.clean
+            2: entity.name.class.clean
+            3: entity.name.type.clean
+        - match: ($|;)
+          pop: true
+
 
 
 
