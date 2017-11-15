@@ -15,7 +15,7 @@ variables:
   module_name: "([A-Za-z][A-Za-z0-9._']*)"
   class_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
   many_upper_case_ids: '({{upper_case_id}}(,\s*)?)+'
-  operator: '{{funny_id}}|\.'
+  operator: '\.|{{funny_id}}'
 contexts:
   main:
     - include: module_declaration
@@ -162,14 +162,14 @@ contexts:
         2: keyword.other.double-colon.clean
       push:
         - include: type_signature
-        - match: ($|;)
+        - match: (?=$|;)
           pop: true
-    - match: '(\({{operator}}\))\s+(infix(?:r|l)?)\s+([0-9])+\s*(::|∷)'
+    - match: '\(({{operator}})\)\s+(infix(?:r|l)?)\s+([0-9]+)\s*(::|∷)'
       scope: meta.function_decl.clean
       captures:
         1: entity.name.function.infix.clean
         2: keyword.other.clean
-        3: variable.parameter.clean
+        3: constant.numeric.integer.clean
         4: keyword.other.double-colon.clean
       push:
         - include: type_signature
@@ -219,6 +219,15 @@ contexts:
         2: entity.name.class.clean
         3: variable.parameter.clean
         4: keyword.other.clean
+    - match: '(class)\s+({{class_name}})'
+      scope: meta.class.clean
+      captures:
+        1: keyword.other.clean
+        2: entity.name.class.clean
+      push:
+        - include: function_type_decl
+        - match: (?=$|;)
+          pop: true
   basic_types:
     - match: (\".*\")
       captures:
@@ -252,7 +261,7 @@ contexts:
       captures:
         1: entity.name.namespace.clean
   type_decl:
-    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)\s*(\=|:==)\s*'
+    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)\s*(\=)\s*'
       captures:
         1: keyword.other.double-colon.clean
         2: entity.name.type.clean 
@@ -263,6 +272,18 @@ contexts:
         - include: record_decl
         - include: constructors
         - include: pop_if_new_def
+    - match: '^(::)\s*({{upper_case_id}})\s*(:==)\s*'
+      captures:
+        1: keyword.other.double-colon.clean
+        2: entity.name.type.clean 
+        3: keyword.other.clean
+      push:
+        - meta_scope: meta.type_def.clean
+        - match: '({{upper_case_id}})'
+          captures:
+            1: storage.type.clean
+        - match: $|;
+          pop: true
   record_decl:
     - match: \{
     - include: function_type_decl
@@ -303,7 +324,7 @@ contexts:
         1: keyword.other.clean
         2: entity.name.class.clean
       push:
-        - match: (?=where|\|)
+        - match: (?=where|$|\|)
           pop: true
         - match: '({{upper_case_id}})'
           captures: 
