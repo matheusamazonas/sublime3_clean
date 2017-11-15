@@ -7,12 +7,14 @@ file_extensions: [icl, dcl]
 scope: source.clean
 
 variables:
-  module_name: "([A-Za-z][A-Za-z0-9._']*)"
-  upper_case_id: "(?:[A-Z][A-Za-z0-9_']*)"
+  special_char: '~|@|#|\$|%|\^|\?|!|\+|-|\*|<|>|\\|\/|\||&|=|:'
   lower_case_id: "(?:[a-z][A-Za-z0-9_']*)"
-  many_upper_case_ids: '({{upper_case_id}}(,\s*)?)+'
+  upper_case_id: "(?:[A-Z][A-Za-z0-9_']*)"
+  funny_id: '(?:{{special_char}})+'
+  module_name: "([A-Za-z][A-Za-z0-9._']*)"
   class_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
-  operator: '(?:[><=|&%$+-/\\\*~@%#\:^?!]+)'
+  many_upper_case_ids: '({{upper_case_id}}(,\s*)?)+'
+  operator: '{{funny_id}}'
 contexts:
   main:
     - include: module_declaration
