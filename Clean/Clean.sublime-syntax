@@ -11,7 +11,7 @@ variables:
   upper_case_id: "(?:[A-Z][A-Za-z0-9_']*)"
   lower_case_id: "(?:[a-z][A-Za-z0-9_']*)"
   many_upper_case_ids: '({{upper_case_id}}(,\s*)?)+'
-  operator: '(?:[><=|&%$+-/\\\*~@%#\:^?]+)'
+  operator: '(?:[><=|&%$+-/\\\*~@%#\:^?!]+)'
 contexts:
   main:
     - include: module_declaration
@@ -251,14 +251,21 @@ contexts:
         4: keyword.other.clean
       push:
         - meta_scope: meta.type_def.clean
+        - include: record_decl
         - include: constructors
         - include: pop_if_new_def
+  record_decl:
+    - match: \{
+    - include: function_type_decl
+    - match: \}
+      pop: true
   constructors:
     - match: '({{upper_case_id}})'
       captures:
         1: entity.name.constructor.clean
       push:
         - meta_scope: meta.constructor.clean
+        - include: pop_if_new_def
         - match: '({{upper_case_id}})'
           captures:
             1: entity.name.type.clean 
@@ -269,9 +276,16 @@ contexts:
           captures:
             1: keyword.other.clean 
           pop: true
-        - include: pop_if_new_def
-  pop_if_new_def:
-    - match: (?=^\s*(?:{{lower_case_id}}|::))
+  pop_if_new_def:   # Unfortunately we need lookahead for this
+    - match: '(?=\s+::)'
+      pop: true
+    - match: '(?=^\s*{{lower_case_id}})'
+      pop: true
+    - match: ^$     # This one doesn't quite follow the language specs
+      pop:  true   
+    - match: (?=\({{operator}}\))
+      pop: true
+    - match: (?=\b=\b)
       pop: true
 
 
