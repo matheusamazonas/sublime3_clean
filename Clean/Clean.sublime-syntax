@@ -233,7 +233,7 @@ contexts:
     - match: '\b((?:-)?0[0-9]+)\b'
       captures:
         1: constant.numeric.octal.clean
-    - match: (True|False)
+    - match: \b(True|False)\b
       captures:
         1: constant.language.clean
   qualified_module_name:
