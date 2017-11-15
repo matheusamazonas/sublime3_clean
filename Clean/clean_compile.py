@@ -340,13 +340,16 @@ class CleanCompileCommand(sublime_plugin.WindowCommand, ProcessListener):
 
 
     def get_lib_paths(self):
-        lib = "-IL ../lib"
-        std_env = "-IL ../lib/StdEnv"
-        std_lib = "-IL ../lib/StdLib -IL ../lib/Platform/Deprecated/StdLib"
-        dynamics = "-IL ../lib/Dynamics"
-        generics = "-IL ../lib/Generics"
-        platform = "-IL ../lib/Platform"
-        return " ".join([lib, std_env, std_lib, dynamics, generics, platform])
+        lib = "-I CLEAN_HOME/lib"
+        std_env = "-I $CLEAN_HOME/lib/StdEnv"
+        std_lib = "-I $CLEAN_HOME/lib/StdLib -IL $CLEAN_HOME/lib/Platform/Deprecated/StdLib"
+        dynamics = "-I $CLEAN_HOME/lib/Dynamics"
+        generics = "-I $CLEAN_HOME/lib/Generics"
+        platform = "-I $CLEAN_HOME/lib/Platform"
+        gast = "-I $CLEAN_HOME/lib/Gast"
+        directory = "-I $CLEAN_HOME/lib/Directory"
+
+        return " ".join([lib, std_env, std_lib, dynamics, generics, platform, gast, directory])
 
     def is_enabled(self, kill=False, **kwargs):
         if kill:
