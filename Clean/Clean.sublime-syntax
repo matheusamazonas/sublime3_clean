@@ -25,6 +25,7 @@ contexts:
     - include: type_decl
     - include: instance
     - include: derive
+    - include: generic
     - include: function_type_decl
     - include: control_keywords
     - include: local_def_keywords
@@ -327,6 +328,17 @@ contexts:
             3: entity.name.type.clean
         - match: ($|;)
           pop: true
+  generic:
+    - match: (generic)\s+({{func_name}})\s+({{lower_case_id}})+
+      captures:
+        1: keyword.other.clean
+        2: entity.name.function.clean
+        3: variable.parameter.clean
+      push:
+        - include: type_signature
+        - match: ($|;)
+          pop: true
+
 
 
 
