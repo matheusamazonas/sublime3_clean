@@ -212,7 +212,7 @@ contexts:
       captures:
         1: keyword.other.clean
   class_def:
-    - match: '(class)\s+({{class_name}})\s+({{lower_case_id}})\s+(where)'
+    - match: '(class)\s+({{class_name}})\s+({{lower_case_id}})\s+(where|\|)'
       scope: meta.class.clean
       captures:
         1: keyword.other.clean
@@ -252,7 +252,7 @@ contexts:
       captures:
         1: entity.name.namespace.clean
   type_decl:
-    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)\s*(\=)\s*'
+    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)\s*(\=|:==)\s*'
       captures:
         1: keyword.other.double-colon.clean
         2: entity.name.type.clean 
