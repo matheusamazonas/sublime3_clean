@@ -252,8 +252,7 @@ contexts:
       captures:
         1: entity.name.namespace.clean
   type_decl:
-    - match: '^(::)\s*({{upper_case_id}})\s+({{lower_case_id}})*\s*(\=)\s*'
-      scope: storage.type.clean
+    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)\s*(\=)\s*'
       captures:
         1: keyword.other.double-colon.clean
         2: entity.name.type.clean 
@@ -278,7 +277,7 @@ contexts:
         - include: pop_if_new_def
         - match: '({{upper_case_id}})'
           captures:
-            1: entity.name.type.clean 
+            1: storage.type.clean 
         - match: '({{lower_case_id}})'
           captures:
             1: variable.parameter.clean
@@ -308,7 +307,7 @@ contexts:
           pop: true
         - match: '({{upper_case_id}})'
           captures: 
-            1: entity.name.type.clean
+            1: storage.type.clean
         - match: '({{lower_case_id}})'
           captures:
             1: variable.parameter.clean
@@ -325,7 +324,7 @@ contexts:
           captures:
             1: entity.name.function.clean
             2: entity.name.class.clean
-            3: entity.name.type.clean
+            3: storage.type.clean
         - match: ($|;)
           pop: true
   generic:
@@ -335,6 +334,9 @@ contexts:
         2: entity.name.function.clean
         3: variable.parameter.clean
       push:
+        - match: '(::|∷)'
+          captures:
+            1: keyword.other.double-colon.clean
         - include: type_signature
         - match: ($|;)
           pop: true
