@@ -18,6 +18,7 @@ contexts:
     - include: comments
     - include: imports
     - include: class_def
+    - include: type_decl
     - include: function_type_decl
     - include: control_keywords
     - include: local_def_keywords
@@ -240,6 +241,53 @@ contexts:
     - match: \'({{upper_case_id}}|{{lower_case_id}})\'
       captures:
         1: entity.name.namespace.clean
+  type_decl:
+    - match: '^(::)\s*({{upper_case_id}})\s+({{lower_case_id}})*\s*(\=)\s*'
+      scope: storage.type.clean
+      captures:
+        1: keyword.other.double-colon.clean
+        2: entity.name.type.clean 
+        3: variable.parameter.clean
+        4: keyword.other.clean
+      push:
+        - meta_scope: meta.type_def.clean
+        - include: constructors
+        - include: pop_if_new_def
+  constructors:
+    - match: '({{upper_case_id}})'
+      captures:
+        1: entity.name.constructor.clean
+      push:
+        - meta_scope: meta.constructor.clean
+        - match: '({{upper_case_id}})'
+          captures:
+            1: entity.name.type.clean 
+        - match: '({{lower_case_id}})'
+          captures:
+            1: variable.parameter.clean
+        - match: (\|)
+          captures:
+            1: keyword.other.clean 
+          pop: true
+        - include: pop_if_new_def
+  pop_if_new_def:
+    - match: (?=^\s*(?:{{lower_case_id}}|::))
+      pop: true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
