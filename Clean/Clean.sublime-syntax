@@ -10,12 +10,12 @@ variables:
   special_char: '~|@|#|\$|%|\^|\?|!|\+|-|\*|<|>|\\|\/|\||&|=|:'
   lower_case_id: "(?:[a-z][A-Za-z0-9_']*)"
   upper_case_id: "(?:[A-Z][A-Za-z0-9_']*)"
-  func_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
   funny_id: '(?:{{special_char}})+'
+  func_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
   module_name: "([A-Za-z][A-Za-z0-9._']*)"
   class_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
   many_upper_case_ids: '({{upper_case_id}}(,\s*)?)+'
-  operator: '{{funny_id}}'
+  operator: '{{funny_id}}|\.'
 contexts:
   main:
     - include: module_declaration
@@ -211,7 +211,7 @@ contexts:
       captures:
         1: keyword.other.clean
   class_def:
-    - match: '(class)\s+({{upper_case_id}}|{{operator}})\s+({{lower_case_id}})\s+(where)'
+    - match: '(class)\s+({{class_name}})\s+({{lower_case_id}})\s+(where)'
       scope: meta.class.clean
       captures:
         1: keyword.other.clean
@@ -241,6 +241,9 @@ contexts:
       captures:
         1: constant.numeric.octal.clean
     - match: \b(True|False)\b
+      captures:
+        1: constant.language.clean
+    - match: \b(Just|Nothing)\b
       captures:
         1: constant.language.clean
   qualified_module_name:
@@ -283,7 +286,7 @@ contexts:
             1: keyword.other.clean 
           pop: true
   pop_if_new_def:   # Unfortunately we need lookahead for this
-    - match: '(?=\s+::)'
+    - match: '(?=\s*::)'
       pop: true
     - match: '(?=^\s*{{lower_case_id}})'
       pop: true
@@ -294,12 +297,20 @@ contexts:
     - match: (?=\b=\b)
       pop: true
   instance:
-    - match: '(instance)\s+({{class_name}})\s+({{upper_case_id}})'
+    - match: '(instance)\s+({{class_name}})'
       scope: meta.instance.clean
       captures:
         1: keyword.other.clean
         2: entity.name.class.clean
-        3: entity.name.type.clean
+      push:
+        - match: (?=where|\|)
+          pop: true
+        - match: '({{upper_case_id}})'
+          captures: 
+            1: entity.name.type.clean
+        - match: '({{lower_case_id}})'
+          captures:
+            1: variable.parameter.clean
   derive:
     - match: '(derive)'
       captures:
