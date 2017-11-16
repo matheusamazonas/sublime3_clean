@@ -149,7 +149,7 @@ contexts:
         - match: ($|;)
           pop: true
   function_type_decl:
-    - match: '({{lower_case_id}}|{{upper_case_id}})\s*(::|∷)'
+    - match: '^\s*({{lower_case_id}}|{{upper_case_id}})\s*(::|∷)'
       scope: meta.function_decl.clean
       captures:
         1: entity.name.function.clean
@@ -206,14 +206,14 @@ contexts:
       captures:
         1: keyword.other.clean
   class_def:
-    - match: '(class)\s+({{class_name}})\s+({{lower_case_id}})\s+(where|\|)'
+    - match: '^(class)\s+({{class_name}})\s+({{lower_case_id}})\s+(where|\|)'
       scope: meta.class.clean
       captures:
         1: keyword.other.clean
         2: entity.name.class.clean
         3: variable.parameter.clean
         4: keyword.other.clean
-    - match: '(class)\s+({{class_name}})'
+    - match: '^(class)\s+({{class_name}})'
       scope: meta.class.clean
       captures:
         1: keyword.other.clean
@@ -317,7 +317,7 @@ contexts:
     - match: '(?=import)'
       pop: true
   instance:
-    - match: '(instance)\s+({{class_name}})'
+    - match: '^(instance)\s+({{class_name}})'
       scope: meta.instance.clean
       captures:
         1: keyword.other.clean
