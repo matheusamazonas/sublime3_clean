@@ -277,9 +277,9 @@ contexts:
         - match: '({{upper_case_id}})'
           captures:
             1: storage.type.clean
-
         - match: $|;
           pop: true
+        - include: operators
   record_decl:
     - match: \{
     - include: function_type_decl
@@ -302,6 +302,7 @@ contexts:
           captures:
             1: keyword.other.clean 
           pop: true
+        - include: operators
   pop_if_new_def:   # Unfortunately we need lookahead for this
     - match: '^(?=\s*::)'
       pop: true
