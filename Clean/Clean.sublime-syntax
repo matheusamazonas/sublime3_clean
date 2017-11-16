@@ -11,10 +11,12 @@ variables:
   lower_case_id: "(?:[a-z][A-Za-z0-9_']*)"
   upper_case_id: "(?:[A-Z][A-Za-z0-9_']*)"
   funny_id: '(?:{{special_char}})+'
-  func_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
-  module_name: "([A-Za-z][A-Za-z0-9._']*)"
-  class_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
   many_upper_case_ids: '({{upper_case_id}}(,\s*)?)+'
+  any_id: '(?:{{upper_case_id}}|{{lower_case_id}})'
+  many_ids: '(?:{{any_id}},\s*)*{{any_id}}'
+  func_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
+  module_name: "(?:[A-Za-z][A-Za-z0-9._']*)"
+  class_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
   operator: '\.|{{funny_id}}'
 contexts:
   main:
@@ -27,98 +29,90 @@ contexts:
     - include: derive
     - include: generic
     - include: function_type_decl
+    - include: explicit_imports
     - include: control_keywords
     - include: local_def_keywords
     - include: other_keywords
     - include: operators
     - include: basic_types
     - include: qualified_module_name
-  function_import:
-    - match: ({{func_name}})
-      captures:
-        1: entity.name.function
+  explicit_imports:
+    - include: type_import
+    - include: class_import
+    - include: instance_import
+    - include: generic_import
   type_import:
-    - match: '(::)\s*({{upper_case_id}})\s*(?:\(({{many_upper_case_ids}})\))?,?'
+    - match: '(::)\s*({{upper_case_id}})\s*(?:\({{many_ids}}\))'
+      scope: meta.import.explicit.type.clean
       captures:
         1: keyword.other.clean
-        2: entity.name.type.clean
-    - match: '(::)\s*({{upper_case_id}})\s*(?:\{({{many_upper_case_ids}})\})?'
+        2: storage.type.clean
+    - match: '(::)\s*({{upper_case_id}})\s*(?:\{{{many_ids}}\})'
+      scope: meta.import.explicit.type.clean
       captures:
         1: keyword.other.clean
-        2: entity.name.type.clean
-    - match: '(::)\s*({{upper_case_id}})\s*(?:\((\.\.)\))?,?'
+        2: storage.type.clean
+    - match: '(::)\s*({{upper_case_id}})\s*(?:\(\.\.\))?'
+      scope: meta.import.explicit.type.clean
       captures:
         1: keyword.other.clean
-        2: entity.name.type.clean
-    - match: '(::)\s*({{upper_case_id}})\s*(?:\{(\.\.)\})?'
+        2: storage.type.clean
+    - match: '(::)\s*({{upper_case_id}})\s*(?:\{\.\.\})?'
+      scope: meta.import.explicit.type.clean
       captures:
         1: keyword.other.clean
-        2: entity.name.type.clean
+        2: storage.type.clean
   class_import:
     - match: '(class)\s+({{upper_case_id}})'
+      scope: meta.import.explicit.class.clean
       captures:
         1: keyword.other.clean
         2: entity.name.class.clean
     - match: '(class)\s+({{upper_case_id}})\(\.\.\)'
+      scope: meta.import.explicit.class.clean
       captures:
         1: keyword.other.clean
         2: entity.name.class.clean
     - match: '(class)\s+({{upper_case_id}})\(many_upper_case_ids\)'
+      scope: meta.import.explicit.class.clean
       captures:
         1: keyword.other.clean
         2: entity.name.class.clean
   instance_import:
     - match: '(instance)\s+({{class_name}})\s+((?:{{upper_case_id}}\s*)+)'
+      scope: meta.import.explicit.instance.clean
       captures:
         1: keyword.other.clean
         2: entity.name.class.clean
-        3: entity.name.type.clean
+        3: storage.type.clean
+  generic_import:
+    - match: '(generic)\s+{{any_id}}'
+      scope: meta.import.explicit.generic.clean
+      captures:
+        1: keyword.other.clean
   imports:
     - include: qualified_import
     - include: simple_import
     - include: from_import
   qualified_import:
-    - match: ^(import)\s+(qualified)
+    - match: ^(import)\s+(qualified)\s+{{module_name}}\s+(as)\s+({{module_name}})
+      scope: meta.import.qualified.clean
       captures:
         1: keyword.control.import.clean
         2: keyword.control.import.clean
-      push:
-        - meta_scope: meta.qualified_import.clean
-        - match: (as)
-          captures:
-            1: keyword.control.import.clean
-        - match: '{{module_name}}'
-          captures:
-            1: entity.name.namespace.clean
-        - match: ($|;)
-          pop: true
+        3: keyword.control.import.clean
+        4: entity.name.namespace.clean
   from_import:
-    - match: ^(from)\s+({{module_name}})
+    - match: ^(from)\s+{{module_name}}\s+(import)
+      scope: meta.import.from.clean
       captures:
         1: keyword.control.import.clean
-        2: entity.name.namespace.clean
-      push:
-        - meta_scope: meta.from_import.clean
-        - match: '(import)'
-          captures:
-            1: keyword.control.import.clean
-        - include: class_import
-        - include: instance_import
-        - include: type_import
-        - include: function_import
-        - include: pop_if_new_import
-        - include: pop_if_new_def
+        2: keyword.control.import.clean
   simple_import:
-    - match: ^(import)\s+
+    - match: ^(import)\s+{{module_name}}
+      scope: meta.import.simple.clean
       captures:
         1: keyword.control.import.clean
-      push:
-        - meta_scope: meta.simple_import.clean
-        - match: '{{module_name}}'
-          captures:
-            1: entity.name.namespace.clean
-        - match: ($|;)
-          pop: true
   comments:
     - include: line_comments
     - include: block_comments
