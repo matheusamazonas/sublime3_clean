@@ -63,17 +63,17 @@ contexts:
         1: keyword.other.clean
         2: storage.type.clean
   class_import:
-    - match: '(class)\s+({{upper_case_id}})'
+    - match: '(class)\s+({{class_name}})'
       scope: meta.import.explicit.class.clean
       captures:
         1: keyword.other.clean
         2: entity.name.class.clean
-    - match: '(class)\s+({{upper_case_id}})\(\.\.\)'
+    - match: '(class)\s+({{class_name}})\(\.\.\)'
       scope: meta.import.explicit.class.clean
       captures:
         1: keyword.other.clean
         2: entity.name.class.clean
-    - match: '(class)\s+({{upper_case_id}})\(many_upper_case_ids\)'
+    - match: '(class)\s+({{class_name}})\(many_upper_case_ids\)'
       scope: meta.import.explicit.class.clean
       captures:
         1: keyword.other.clean
