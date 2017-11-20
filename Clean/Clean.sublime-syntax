@@ -223,7 +223,7 @@ contexts:
         - match: (?=$|;)
           pop: true
   basic_types:
-    - match: (\".*?\")
+    - match: (\".*?[^\\]\")
       captures:
         1: string.quoted.double.clean
     - match: (\'.\')
