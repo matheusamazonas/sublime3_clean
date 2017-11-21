@@ -149,7 +149,7 @@ contexts:
         - match: ($|;)
           pop: true
   function_type_decl:
-    - match: '^\s*({{lower_case_id}}|{{upper_case_id}})\s*(::|∷)'
+    - match: '\s*({{lower_case_id}}|{{upper_case_id}})\s*(::|∷)'
       scope: meta.function_decl.clean
       captures:
         1: entity.name.function.clean
@@ -159,7 +159,7 @@ contexts:
         - match: (?=$|;)
           pop: true
     - match: '\(({{operator}})\)\s+(infix(?:r|l)?)\s+([0-9]+)\s*(::|∷)'
-      scope: meta.function_decl.clean
+      scope: meta.declaration.function.clean
       captures:
         1: entity.name.function.infix.clean
         2: keyword.other.clean
