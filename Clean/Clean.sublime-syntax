@@ -7,7 +7,7 @@ file_extensions: [icl, dcl]
 scope: source.clean
 
 variables:
-  special_char: '~|@|#|\$|%|\^|\?|!|\+|-|\*|<|>|\\|\/|\||&|=|:'
+  special_char: '~|@|#|\$|%|\^|\?|!|\+|-|\*|<|>|\\|\/|\||&|=|:|\.'
   lower_case_id: "(?:[a-z][A-Za-z0-9_`]*)"
   upper_case_id: "(?:[A-Z][A-Za-z0-9_`]*)"
   funny_id: '(?:{{special_char}})+'
@@ -17,7 +17,7 @@ variables:
   func_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
   module_name: "(?:[A-Za-z][A-Za-z0-9._']*)"
   class_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
-  operator: '\.|{{funny_id}}'
+  operator: '(?:\.|{{funny_id}})+'
 contexts:
   main:
     - include: module_declaration
@@ -248,6 +248,9 @@ contexts:
       captures:
         1: constant.language.clean
     - match: \b(Just|Nothing)\b
+      captures:
+        1: constant.language.clean
+    - match: \b(Left|Right)\b
       captures:
         1: constant.language.clean
   qualified_module_name:
