@@ -8,8 +8,8 @@ scope: source.clean
 
 variables:
   special_char: '~|@|#|\$|%|\^|\?|!|\+|-|\*|<|>|\\|\/|\||&|=|:'
-  lower_case_id: "(?:[a-z][A-Za-z0-9_']*)"
-  upper_case_id: "(?:[A-Z][A-Za-z0-9_']*)"
+  lower_case_id: "(?:[a-z][A-Za-z0-9_`]*)"
+  upper_case_id: "(?:[A-Z][A-Za-z0-9_`]*)"
   funny_id: '(?:{{special_char}})+'
   many_upper_case_ids: '({{upper_case_id}}(,\s*)?)+'
   any_id: '(?:{{upper_case_id}}|{{lower_case_id}})'
