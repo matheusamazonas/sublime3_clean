@@ -317,6 +317,10 @@ contexts:
       pop: true
     - match: ^(?=\b=\b)
       pop: true
+    - match: (?=\/\*)
+      pop: true
+    - match: (?=\/\/)
+      pop: true
   pop_if_new_import:
     - match: '(?=from)'
       pop: true
