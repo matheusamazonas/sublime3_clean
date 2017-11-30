@@ -348,8 +348,9 @@ class CleanCompileCommand(sublime_plugin.WindowCommand, ProcessListener):
         platform = "-I $CLEAN_HOME/lib/Platform"
         gast = "-I $CLEAN_HOME/lib/Gast"
         directory = "-I $CLEAN_HOME/lib/Directory"
+        deprecated = "-I $CLEAN_HOME/lib/Platform/Deprecated/StdLib"
 
-        return " ".join([lib, std_env, std_lib, dynamics, generics, platform, gast, directory])
+        return " ".join([lib, std_env, std_lib, dynamics, generics, platform, gast, directory, deprecated])
 
     def is_enabled(self, kill=False, **kwargs):
         if kill:
