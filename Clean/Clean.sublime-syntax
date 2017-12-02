@@ -170,6 +170,7 @@ contexts:
         - match: ($|;)
           pop: true
   type_signature: 
+    - include: comments
     - match: '(\|)'
       captures:
         1: keyword.other.given_that.clean
