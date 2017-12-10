@@ -149,7 +149,7 @@ contexts:
         - match: ($|;)
           pop: true
   function_type_decl:
-    - match: '\s*({{lower_case_id}}|{{upper_case_id}})\s*(::|∷)'
+    - match: '\s*(?:\()?({{func_name}})(?:\))?\s*(::|∷)'
       scope: meta.function_decl.clean
       captures:
         1: entity.name.function.clean
