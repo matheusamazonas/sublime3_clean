@@ -207,8 +207,19 @@ contexts:
       captures:
         1: keyword.other.clean
   class_def:
-    - match: '^(class)\s+({{class_name}})\s+({{lower_case_id}})\s+(where|\|)'
-      scope: meta.class.clean
+    - match: '^(class)\s+({{class_name}})\s+({{lower_case_id}})\s+(\|)'
+      scope: meta.class1.clean
+      captures:
+        1: keyword.other.clean
+        2: entity.name.class.clean
+        3: variable.parameter.clean
+        4: keyword.contraint.clean
+      push:
+        - include: constraint
+        - match: (?=$|;)
+          pop: true
+    - match: '^(class)\s+({{class_name}})\s+({{lower_case_id}})\s+(where)'
+      scope: meta.class2.clean
       captures:
         1: keyword.other.clean
         2: entity.name.class.clean
@@ -371,6 +382,14 @@ contexts:
         - include: type_signature
         - match: ($|;)
           pop: true
+  constraint:
+    - match: ({{class_name}})\s*,\s*
+      captures: 
+        1: entity.name.class.clean
+    - match: ({{class_name}})\s+({{lower_case_id}})
+      captures: 
+        1: entity.name.class.clean
+        2: variable.parameter.clean
 
 
 
