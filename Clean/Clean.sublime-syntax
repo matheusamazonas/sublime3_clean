@@ -390,6 +390,9 @@ contexts:
         - match: ($|;)
           pop: true
   constraint:
+    - match: '(&)'
+      captures: 
+        1: keyword.other.clean
     - match: ({{class_name}})\s*,\s*
       captures: 
         1: entity.name.class.clean
