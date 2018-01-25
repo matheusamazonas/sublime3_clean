@@ -149,12 +149,12 @@ contexts:
         - match: ($|;)
           pop: true
   function_type_decl:
-    - match: '\s*(?:\()?({{func_name}})(?:\))?\s*(::|∷)'
-      scope: meta.function_decl.clean
+    - match: '(?:\()?({{func_name}})(?:\))?\s*(::|∷)'
       captures:
         1: entity.name.function.clean
         2: keyword.other.double-colon.clean
       push:
+        - meta_scope: meta.function_decl.clean
         - include: type_signature
         - match: (?=$|;)
           pop: true
@@ -171,6 +171,17 @@ contexts:
           pop: true
   type_signature: 
     - include: comments
+    - match: ','
+      pop: true
+    - match: \(
+      push: tupled_type_signature
+    - match: \)
+      pop: true
+    - include: tupled_type_signature
+    - match: '(?=\})'       # We need the lookahead to see if it's a record
+      pop: true
+  tupled_type_signature:
+    - include: comments
     - match: '(\|)'
       captures:
         1: keyword.other.given_that.clean
@@ -179,8 +190,6 @@ contexts:
         - include: constraint
         - match: (?=$|;)
           pop: true
-    - match: ($|;)
-      pop: true
     - match: (->|→)
       captures:
         1: keyword.other.arror.clean
@@ -196,6 +205,10 @@ contexts:
     - match: '({{upper_case_id}})'
       captures:
         1: storage.type.clean
+    - match: \(
+      push: tupled_type_signature
+    - match: \)
+      pop: true
   operators:
     - match: '({{operator}})'
       captures:
@@ -303,9 +316,19 @@ contexts:
           pop: true
         - include: operators
   record_decl:
-    - match: \{
     - include: function_type_decl
-    - match: \}
+    - match: '(\{)'
+      captures:
+        1: keyword.other.open_curly.clean
+    - match: '(\,)'
+      captures:
+        1: keyword.other.comma.clean
+      pop: true
+    - match: '(\})'
+      captures:
+        1: keyword.other.close_curly.clean
+      pop: true
+    - match: ','
       pop: true
   constructors:
     - match: '({{upper_case_id}})'
