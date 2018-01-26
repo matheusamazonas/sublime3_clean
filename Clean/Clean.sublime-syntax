@@ -38,6 +38,16 @@ contexts:
     - include: operators
     - include: basic_types
     - include: qualified_module_name
+    - include: open_brackets
+  open_brackets:
+    - match: \(
+      push: close_brackets
+    - match: \)
+      scope: invalid.illegal.stray-bracket-end
+  close_brackets:
+    - match: \)
+      pop: true
+    - include: main
   explicit_imports:
     - include: type_import
     - include: class_import
