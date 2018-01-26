@@ -18,6 +18,8 @@ variables:
   module_name: "(?:[A-Za-z][A-Za-z0-9._']*)"
   class_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
   operator: '(?:\.|{{funny_id}})+'
+  constraint_name: '{{class_name}}|{{generic_name}}'
+  generic_name: '{{lower_case_id}}\s*\{\|\*\|\}'
 contexts:
   main:
     - include: module_declaration
@@ -434,13 +436,14 @@ contexts:
     - match: '(&)'
       captures: 
         1: keyword.other.clean
-    - match: ({{class_name}})\s*,\s*
+    - match: ({{constraint_name}})\s*,\s*
       captures: 
         1: entity.name.class.clean
-    - match: ({{class_name}})\s+({{lower_case_id}})
+    - match: ({{constraint_name}})\s+({{lower_case_id}})
       captures: 
         1: entity.name.class.clean
         2: variable.parameter.clean
+
 
 
 
