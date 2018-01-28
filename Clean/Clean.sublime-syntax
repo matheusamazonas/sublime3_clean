@@ -407,11 +407,15 @@ contexts:
         1: keyword.other.clean
         2: entity.name.class.clean
       push:
-        - match: (?=where|$|\|)
+        - match: '(\|)'
+          captures:
+            1: keyword.other.given_that.clean
+        - match: (?=where|$)
           pop: true
         - match: '({{upper_case_id}})'
           captures: 
             1: storage.type.clean
+        - include: constraint
         - match: '({{lower_case_id}})'
           captures:
             1: variable.parameter.clean
