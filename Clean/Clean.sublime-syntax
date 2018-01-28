@@ -346,6 +346,23 @@ contexts:
     - match: ','
       pop: true
   constructors:
+    - match: '(?:\()?({{func_name}})(?:\))?\s+(infix(?:r|l)?)\s+([0-9]+)\s*'
+      captures:
+        1: entity.name.function.infix.clean
+        2: keyword.other.clean
+        3: constant.numeric.integer.clean
+      push:
+        - include: pop_if_new_def
+        - match: '({{upper_case_id}})'
+          captures:
+            1: storage.type.clean 
+        - match: '({{lower_case_id}})'
+          captures:
+            1: variable.parameter.clean
+        - match: (\|)
+          captures:
+            1: keyword.other.clean 
+          pop: true
     - match: '({{upper_case_id}})'
       captures:
         1: entity.name.constructor.clean
@@ -363,23 +380,6 @@ contexts:
             1: keyword.other.clean 
           pop: true
         - include: operators
-    - match: '\(({{func_name}})\)\s+(infix(?:r|l)?)\s+([0-9]+)\s*'
-      captures:
-        1: entity.name.function.infix.clean
-        2: keyword.other.clean
-        3: constant.numeric.integer.clean
-      push:
-        - include: pop_if_new_def
-        - match: '({{upper_case_id}})'
-          captures:
-            1: storage.type.clean 
-        - match: '({{lower_case_id}})'
-          captures:
-            1: variable.parameter.clean
-        - match: (\|)
-          captures:
-            1: keyword.other.clean 
-          pop: true
   pop_if_new_def:   # Unfortunately we need lookahead for this
     - match: '^(?=\s*::)'
       pop: true
