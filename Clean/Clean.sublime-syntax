@@ -166,7 +166,7 @@ contexts:
         1: entity.name.function.clean
         2: keyword.other.double-colon.clean
       push:
-        - meta_scope: meta.function_decl.clean
+        - meta_scope: meta.declaration.function.clean
         - include: type_signature
         - match: (?=$|;)
           pop: true
@@ -239,15 +239,17 @@ contexts:
         1: keyword.other.clean
   class_def:
     - match: '^(class)\s+({{class_name}})\s+({{lower_case_id}})\s+(\|)'
-      scope: meta.class1.clean
+      scope: meta.class.clean
       captures:
         1: keyword.other.clean
         2: entity.name.class.clean
         3: variable.parameter.clean
         4: keyword.contraint.clean
       push:
-        - meta_scope: meta.class.constraint.clean
         - include: constraint
+        - match: (where)
+          captures:
+            1: keyword.other.clean
         - match: (?=$|;)
           pop: true
     - match: '^(class)\s+({{class_name}})\s+({{lower_case_id}})\s+(where)'
@@ -302,6 +304,15 @@ contexts:
       captures:
         1: entity.name.namespace.clean
   type_decl:
+    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(\=)\s*\{'
+      captures:
+        1: keyword.other.double-colon.clean
+        2: entity.name.type.clean 
+        3: variable.parameter.clean
+        4: keyword.other.clean
+      push:
+        - meta_scope: meta.definition.type.clean
+        - include: record_decl
     - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(\=)\s*'
       captures:
         1: keyword.other.double-colon.clean
@@ -309,8 +320,7 @@ contexts:
         3: variable.parameter.clean
         4: keyword.other.clean
       push:
-        - meta_scope: meta.type_def.clean
-        - include: record_decl
+        - meta_scope: meta.definition.type.clean
         - include: constructors
         - include: pop_if_new_def
     - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(:==)\s*'
@@ -320,7 +330,7 @@ contexts:
         3: variable.parameter.clean
         4: keyword.other.clean
       push:
-        - meta_scope: meta.type_def.clean
+        - meta_scope: meta.definition.type.clean
         - match: '({{upper_case_id}})'
           captures:
             1: storage.type.clean
@@ -329,16 +339,9 @@ contexts:
         - include: operators
   record_decl:
     - include: function_type_decl
-    - match: '(\{)'
-      captures:
-        1: keyword.other.open_curly.clean
     - match: '(\,)'
-      captures:
-        1: keyword.other.comma.clean
       pop: true
     - match: '(\})'
-      captures:
-        1: keyword.other.close_curly.clean
       pop: true
     - match: ','
       pop: true
@@ -377,7 +380,6 @@ contexts:
           captures:
             1: keyword.other.clean 
           pop: true
-
   pop_if_new_def:   # Unfortunately we need lookahead for this
     - match: '^(?=\s*::)'
       pop: true
@@ -445,7 +447,7 @@ contexts:
   constraint:
     - match: '(&)'
       captures: 
-        1: keyword.other.clean
+        1: keyword.other.clean  
     - match: ({{constraint_name}})\s*,\s*
       captures: 
         1: entity.name.class.clean
