@@ -445,6 +445,7 @@ contexts:
         - match: ($|;)
           pop: true
   constraint:
+    - include: comments
     - match: '(&)'
       captures: 
         1: keyword.other.clean  
