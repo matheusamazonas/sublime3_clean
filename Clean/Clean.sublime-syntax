@@ -330,6 +330,7 @@ contexts:
         3: variable.parameter.clean
         4: keyword.other.clean
       push:
+        - include: qualified_module_name
         - meta_scope: meta.definition.type.clean
         - match: '({{upper_case_id}})'
           captures:
