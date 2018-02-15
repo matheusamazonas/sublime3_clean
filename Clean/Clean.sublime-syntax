@@ -306,15 +306,6 @@ contexts:
       captures:
         1: entity.name.namespace.clean
   type_decl:
-    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(\=)\s*\{'
-      captures:
-        1: keyword.other.double-colon.clean
-        2: entity.name.type.clean 
-        3: variable.parameter.clean
-        4: keyword.other.clean
-      push:
-        - meta_scope: meta.definition.type.clean
-        - include: record_decl
     - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(\=)\s*'
       captures:
         1: keyword.other.double-colon.clean
@@ -323,6 +314,9 @@ contexts:
         4: keyword.other.clean
       push:
         - meta_scope: meta.definition.type.clean
+        - match: (\{)
+          push:
+            - include: record_decl
         - include: constructors
         - include: pop_if_new_def
     - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(:==)\s*'
@@ -342,11 +336,7 @@ contexts:
         - include: operators
   record_decl:
     - include: function_type_decl
-    - match: '(\,)'
-      pop: true
     - match: '(\})'
-      pop: true
-    - match: ','
       pop: true
   constructors:
     - match: '(?:\()?({{func_name}})(?:\))?\s+(infix(?:r|l)?)\s+([0-9]+)\s*'
