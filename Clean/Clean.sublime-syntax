@@ -20,6 +20,7 @@ variables:
   operator: '(?:\.|{{funny_id}})+'
   constraint_name: '{{class_name}}|{{generic_name}}'
   generic_name: '{{lower_case_id}}\s*\{\|\*\|\}'
+  type_name: '{{upper_case_id}}|\[\]|\{\}|\(\)'
 contexts:
   main:
     - include: module_declaration
@@ -91,7 +92,7 @@ contexts:
         1: keyword.other.clean
         2: entity.name.class.clean
   instance_import:
-    - match: '(instance)\s+({{class_name}})\s+((?:{{upper_case_id}}\s*)+)'
+    - match: '(instance)\s+({{class_name}})\s+((?:{{type_name}}\s*)+)'
       scope: meta.import.explicit.instance.clean
       captures:
         1: keyword.other.clean
