@@ -457,10 +457,16 @@ contexts:
     - match: ({{constraint_name}})\s*,\s*
       captures: 
         1: entity.name.class.clean
-    - match: ({{constraint_name}})\s+({{lower_case_id}})
+    - match: ({{constraint_name}})\s+({{lower_case_id}})\s*
       captures: 
         1: entity.name.class.clean
         2: variable.parameter.clean
+      push:
+        - match: ({{lower_case_id}})\s*
+          captures: 
+            1: variable.parameter.clean
+        - match: ($:|)
+          pop: true
 
 
 
