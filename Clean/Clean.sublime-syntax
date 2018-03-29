@@ -399,6 +399,10 @@ contexts:
       push:
         - include: constraint
         - match: (?=where)
+          captures:
+            1: keyword.other.clean
+          pop: true
+        - match: (?:$|;)
           pop: true
         - match: '({{upper_case_id}})'
           captures: 
