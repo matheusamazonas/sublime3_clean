@@ -18,8 +18,7 @@ variables:
   module_name: "(?:[A-Za-z][A-Za-z0-9._']*)"
   class_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
   operator: '(?:\.|{{funny_id}})+'
-  constraint_name: '{{class_name}}|{{generic_name}}'
-  generic_name: '{{lower_case_id}}\s*\{\|\*\|\}'
+  constraint_name: '(?:{{any_id}}|{{operator}})(?:\{\|\*\|\})?'
   type_name: '{{upper_case_id}}|\[\]|\{\}|\(\)'
 contexts:
   main:
@@ -195,14 +194,7 @@ contexts:
       pop: true
   tupled_type_signature:
     - include: comments
-    - match: '(\|)'
-      captures:
-        1: keyword.other.given_that.clean
-      push: 
-        - meta_scope: meta.function.constraint.clean
-        - include: constraint
-        - match: (?=$|;)
-          pop: true
+    - include: constraint
     - match: (->|→)
       captures:
         1: keyword.other.arror.clean
@@ -244,7 +236,6 @@ contexts:
       captures:
         1: keyword.other.clean
         2: entity.name.class.clean
-        3: variable.parameter.clean
       push:
         - match: (where)
           captures:
@@ -253,13 +244,7 @@ contexts:
         - match: ({{lower_case_id}})\s*
           captures:
             1: variable.parameter.clean
-        - match: (\|)
-          captures:
-            1: keyword.contraint.clean
-          push:
-            - include: constraint
-            - match: (?=$|;)
-              pop: true
+        - include: constraint
         - match: (::)
           captures:
             1: keyword.other.double-colon.clean
@@ -412,13 +397,7 @@ contexts:
         1: keyword.other.clean
         2: entity.name.class.clean
       push:
-        - match: '(\|)'
-          captures:
-            1: keyword.other.given_that.clean
-          push:
-            - include: constraint
-            - match: (?=where)
-              pop: true
+        - include: constraint
         - match: (?=where)
           pop: true
         - match: '({{upper_case_id}})'
@@ -457,50 +436,38 @@ contexts:
         - match: ($|;)
           pop: true
   constraint:
-    - include: comments
-    - match: '(&)'
-      captures: 
-        1: keyword.other.clean  
-    - match: ({{constraint_name}})\s*,\s*
-      captures: 
-        1: entity.name.class.clean
-    - match: ({{constraint_name}})\s+({{lower_case_id}})\s*
-      captures: 
-        1: entity.name.class.clean
-        2: variable.parameter.clean
+    - match: '(\|)'
+      captures:
+        1: keyword.other.given_that.clean
       push:
-        - match: (?=where)
-          captures:
-            1: keyword.other.clean
-          pop: true
-        - match: ({{lower_case_id}})\s*
+        - meta_scope: meta.constraint.clean
+        - include: comments
+        - match: '(&)'
           captures: 
-            1: variable.parameter.clean
-        - match: ($:|)
+            1: keyword.other.clean
+        - match: ({{constraint_name}})\s*,
+          captures: 
+            1: entity.name.class.clean
+        - match: ({{constraint_name}})\s+({{lower_case_id}})\s*
+          captures: 
+            1: entity.name.class.clean
+            2: variable.parameter.clean
+          push:
+            - match: (?=where)
+              captures:
+                1: keyword.other.clean
+              pop: true
+            - match: ({{lower_case_id}})\s*
+              captures: 
+                1: variable.parameter.clean
+            - match: ($|;)
+              pop: true
+            - match: (?=&)
+              pop: true
+        - match: (?=where)  
           pop: true
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        - match: ($|;)
+          pop: true
 
 
 
