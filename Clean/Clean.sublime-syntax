@@ -336,6 +336,7 @@ contexts:
     - match: '(\})'
       pop: true
   constructors:
+    - include: comments
     - match: '(?:\()?({{func_name}})(?:\))?\s+(infix(?:r|l)?)\s+([0-9]+)\s*'
       captures:
         1: entity.name.function.infix.clean
