@@ -19,7 +19,7 @@ variables:
   class_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
   operator: '(?:\.|{{funny_id}})+'
   constraint_name: '(?:{{any_id}}|{{operator}})(?:\{\|\*\|\})?'
-  type_name: '{{upper_case_id}}|\[\]|\{\}|\(\)'
+  type_name: '{{upper_case_id}}|\(\)'
 contexts:
   main:
     - include: module_declaration
@@ -181,23 +181,10 @@ contexts:
         - include: type_signature
         - match: ($|;)
           pop: true
-  type_signature: 
-    - include: comments
-    - match: ','
-      pop: true
-    - match: \(
-      push: tupled_type_signature
-    - match: \)
-      pop: true
-    - include: tupled_type_signature
-    - match: '(?=\})'       # We need the lookahead to see if it's a record
-      pop: true
-  tupled_type_signature:
-    - include: comments
-    - include: constraint
-    - match: (->|→)
+  type:
+    - match: (\#)
       captures:
-        1: keyword.other.arror.clean
+        1: keyword.other.unboxed.clean
     - match: (\!)
       captures:
         1: keyword.other.strict.clean
@@ -207,12 +194,28 @@ contexts:
     - match: '({{lower_case_id}})'
       captures:
         1: variable.parameter.clean
-    - match: '({{upper_case_id}})'
+    - match: '({{type_name}})'
       captures:
         1: storage.type.clean
+    - match: (->|→)
+      captures:
+        1: keyword.other.arror.clean
     - match: \(
-      push: tupled_type_signature
+      push: tuple_type
+    - match: ','
+      pop: true
+  tuple_type:
+    - match: '(,)'
+      captures:
+        1: keyword.other.comma.clean
     - match: \)
+      pop: true
+    - include: type
+  type_signature: 
+    - include: comments
+    - include: constraint
+    - include: type
+    - match: '(?=\})'       # We need the lookahead to see if it's a record
       pop: true
   operators:
     - match: '({{operator}})'
@@ -416,7 +419,7 @@ contexts:
           pop: true
         - match: (?:$|;)
           pop: true
-        - match: '({{upper_case_id}})'
+        - match: '({{type_name}})'
           captures: 
             1: storage.type.clean
         - match: '({{lower_case_id}})'
