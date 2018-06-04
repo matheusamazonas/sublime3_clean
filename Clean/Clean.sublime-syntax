@@ -183,15 +183,18 @@ contexts:
           pop: true
   type_signature: 
     - include: comments
+    - match: ','
+      pop: true
+    - match: \(
+      push: tupled_type_signature
+    - match: \)
+      pop: true
+    - include: tupled_type_signature
+    - match: '(?=\})'       # We need the lookahead to see if it's a record
+      pop: true
+  tupled_type_signature:
+    - include: comments
     - include: constraint
-    # - match: ','
-    #   pop: true
-    - match: '({{lower_case_id}})'
-      captures:
-        1: variable.parameter.clean
-    - match: '({{type_name}})'
-      captures:
-        1: storage.type.clean
     - match: (->|→)
       captures:
         1: keyword.other.arror.clean
@@ -201,10 +204,15 @@ contexts:
     - match: '(\*)'
       captures:
         1: keyword.other.unique.clean
-    - match: '(\#)'
+    - match: '({{lower_case_id}})'
       captures:
-        1: keyword.other.unboxed.clean
-    - match: '(?=\})'       # We need the lookahead to see if it's a record
+        1: variable.parameter.clean
+    - match: '({{upper_case_id}})'
+      captures:
+        1: storage.type.clean
+    - match: \(
+      push: tupled_type_signature
+    - match: \)
       pop: true
   operators:
     - match: '({{operator}})'
@@ -408,7 +416,7 @@ contexts:
           pop: true
         - match: (?:$|;)
           pop: true
-        - match: '({{type_name}})'
+        - match: '({{upper_case_id}})'
           captures: 
             1: storage.type.clean
         - match: '({{lower_case_id}})'
