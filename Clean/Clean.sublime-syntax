@@ -91,12 +91,13 @@ contexts:
         1: keyword.other.clean
         2: entity.name.class.clean
   instance_import:
-    - match: '(instance)\s+({{class_name}})\s+((?:{{type_name}}\s*)+)'
+    - match: '(instance)\s+({{class_name}})'
       scope: meta.import.explicit.instance.clean
       captures:
         1: keyword.other.clean
         2: entity.name.class.clean
         3: storage.type.clean
+      push: type
   generic_import:
     - match: '(generic)\s+{{any_id}}'
       scope: meta.import.explicit.generic.clean
@@ -203,6 +204,8 @@ contexts:
     - match: \(
       push: tuple_type
     - match: ','
+      pop: true
+    - match: $|;
       pop: true
   tuple_type:
     - match: '(,)'
