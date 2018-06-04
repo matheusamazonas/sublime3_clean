@@ -333,7 +333,7 @@ contexts:
         3: variable.parameter.clean
         4: keyword.other.clean
       push:
-        - meta_scope: meta.definition.record.clean
+        - meta_scope: meta.definition.type.clean
         - match: \{
           push:
             - include: record_decl
@@ -360,6 +360,10 @@ contexts:
     - include: function_type_decl
   constructors:
     - include: comments
+    - include: existential_constructor
+    - include: infix_constructor
+    - include: normal_constructor
+  infix_constructor:
     - match: '(?:\()?({{func_name}})(?:\))?\s+(infix(?:r|l)?)\s+([0-9]+)\s*'
       captures:
         1: entity.name.function.infix.clean
@@ -377,6 +381,7 @@ contexts:
           captures:
             1: keyword.other.clean 
           pop: true
+  normal_constructor:
     - match: '({{upper_case_id}})'
       captures:
         1: entity.name.constructor.clean
@@ -393,7 +398,23 @@ contexts:
           captures:
             1: keyword.other.clean 
           pop: true
-        - include: operators
+        - match: (?=\&)
+          pop: true
+  existential_constructor:
+    - match: (E\.)
+      captures:
+        1: keyword.existential.clean
+      push:
+        - match: '({{lower_case_id}})'
+          captures:
+            1: variable.parameter.clean
+        - match: '(:)'
+          captures:
+            1: keyword.colon.clean
+        - include: exist_type_constraint
+        - include: normal_constructor
+        - match: $|;
+          pop: true
   pop_if_new_def:   # Unfortunately we need lookahead for this
     - match: '^(?=\s*::)'
       pop: true
@@ -496,6 +517,29 @@ contexts:
           pop: true
         - match: ($|;)
           pop: true
+  exist_type_constraint:
+    - match: '(\&)'
+      captures:
+        1: keyword.other.given_that.clean
+      push:
+        - meta_scope: meta.exist_constraint.clean
+        - include: comments
+        - match: ({{constraint_name}})\s*,
+          captures: 
+            1: entity.name.class.clean
+        - match: ({{constraint_name}})\s+({{lower_case_id}})\s*
+          captures: 
+            1: entity.name.class.clean
+            2: variable.parameter.clean
+          push:
+            - match: ({{lower_case_id}})\s*
+              captures: 
+                1: variable.parameter.clean
+            - match: ($|;)
+              pop: true
+        - match: (?=$|;)
+          pop: true
+
 
 
 
