@@ -105,9 +105,17 @@ contexts:
       captures:
         1: keyword.other.clean
   imports:
+    - include: hidden_import
     - include: qualified_import
     - include: simple_import
     - include: from_import
+  hidden_import:
+    - match: '^(import)\s+{{module_name}}\s+(\=\>)\s+(qualified)'
+      scope: meta.import.simple.clean
+      captures:
+        1: keyword.control.import.clean
+        2: keyword.control.hidden.clean
+        3: keyword.control.qualified.clean
   qualified_import:
     - match: ^(import)\s+(qualified)\s+{{module_name}}\s+(as)\s+({{module_name}})
       scope: meta.import.qualified.clean
