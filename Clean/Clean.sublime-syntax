@@ -303,7 +303,18 @@ contexts:
       captures:
         1: entity.name.namespace.clean
   type_decl:
-    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(\=)\s*'
+    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(\=)\s*(\.\.)' # Extendable ADTs
+      captures:
+        1: keyword.other.double-colon.clean
+        2: entity.name.type.clean 
+        3: variable.parameter.clean
+        4: keyword.other.clean
+        5: keyword.other.clean
+      push:
+        - meta_scope: meta.definition.type.clean
+        - match: $|;
+          pop: true
+    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(\=|\|)\s*'
       captures:
         1: keyword.other.double-colon.clean
         2: entity.name.type.clean 
