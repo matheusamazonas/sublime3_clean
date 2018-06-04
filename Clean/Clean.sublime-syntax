@@ -30,6 +30,7 @@ contexts:
     - include: instance
     - include: derive
     - include: generic
+    - include: dynamic
     - include: function_type_decl
     - include: explicit_imports
     - include: control_keywords
@@ -539,6 +540,17 @@ contexts:
               pop: true
         - match: (?=$|;)
           pop: true
+  dynamic:
+    - match: '\(({{lower_case_id}})\s*(\:\:)'
+      captures:
+        1: variable.parameter.clean
+        2: keyword.operator.double-colon.clean
+      push:
+        - include: type
+        - match: (?=\))
+          pop: true
+    - match: \)
+      pop: true
 
 
 
