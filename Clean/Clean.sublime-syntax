@@ -180,7 +180,7 @@ contexts:
         4: keyword.other.double-colon.clean
       push:
         - include: type_signature
-        - match: ($|;)
+        - match: (?=$|;)
           pop: true
   type:
     - match: (\#)
@@ -203,9 +203,13 @@ contexts:
         1: keyword.other.arror.clean
     - match: \(
       push: tuple_type
+    - match: \{
+      push: array_type
     - match: ','
       pop: true
-    - match: $|;
+    - match: (?=$|;)
+      pop: true
+    - match: '(?=\})'       # We need the lookahead to see if it's a record
       pop: true
   tuple_type:
     - match: '(,)'
@@ -214,12 +218,14 @@ contexts:
     - match: \)
       pop: true
     - include: type
+  array_type:
+    - match: \}
+      pop: true
+    - include: type
   type_signature: 
     - include: comments
     - include: constraint
     - include: type
-    - match: '(?=\})'       # We need the lookahead to see if it's a record
-      pop: true
   operators:
     - match: '({{operator}})'
       captures:
@@ -327,8 +333,8 @@ contexts:
         3: variable.parameter.clean
         4: keyword.other.clean
       push:
-        - meta_scope: meta.definition.type.clean
-        - match: (\{)
+        - meta_scope: meta.definition.record.clean
+        - match: \{
           push:
             - include: record_decl
         - include: constructors
@@ -349,9 +355,9 @@ contexts:
           pop: true
         - include: operators
   record_decl:
-    - include: function_type_decl
-    - match: '(\})'
+    - match: '\}'
       pop: true
+    - include: function_type_decl
   constructors:
     - include: comments
     - match: '(?:\()?({{func_name}})(?:\))?\s+(infix(?:r|l)?)\s+([0-9]+)\s*'
