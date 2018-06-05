@@ -19,6 +19,7 @@ Installation
 
 #### Manual
 If the installation script fails, you can still install the package manually. Compress the "Clean" folder to a *zip* file, change its extension to ".sublime-package" and copy it. Navigate to the sublime data path (OS dependent, see below) and paste it in <data_path>/Installed Packages
+
 Data paths:
 * macOS X: ~/Library/Application Support/Sublime Text 3/
 * Windows: %APPDATA%\Sublime Text 3\
