@@ -14,17 +14,29 @@ Features
 Installation
 -------------
 #### Automated
-* MacOS X: simply run *install.sh*. 
+* macOS X: simply run *install.sh*. 
 * Windows and Linux: no automated installation yet. Check manual installation.
 
 #### Manual
-If the installation script fails, you can still install the package manually. Compress the "Clean" folder to a *zip* file, change its extension to ".sublime-package" and copy it. Navigate to the sublime data path (OS dependent, see below) and paste it. 
+If the installation script fails, you can still install the package manually. Compress the "Clean" folder to a *zip* file, change its extension to ".sublime-package" and copy it. Navigate to the sublime data path (OS dependent, see below) and paste it in <data_path>/Installed Packages
 Data paths:
-* MacOS X: ~/Library/Application Support/Sublime Text 3/Installed Packages
-* Windows: %APPDATA%\Sublime Text 3\Installed Packages
-* Linux: ~/.config/sublime-text-3/Installed Packages
+* macOS X: ~/Library/Application Support/Sublime Text 3/
+* Windows: %APPDATA%\Sublime Text 3\
+* Linux: ~/.config/sublime-text-3/
 
 Finally, restart Sublime and all the package features should be enabled.
+
+Development
+-------------
+If you're planning to contribute to this package (or simply modify it for fun), it's strongly advised to use an alternative to the installation procedure. The installation procedure described in the previous section compresses the Clean folder and copies it to Sublime's data path. Although this might work for a user, a developer might find out that it brings a problem: syntax tests won't run. 
+
+Due to SublimeText's limitations, a syntax test will only run on files that live inside Sublime's package folder, otherwise it will throw the given error: "The current file can not be used for testing since it is not loaded by Sublime Text. This is usually caused by a file not located in, or symlinked to, the Packages folder."
+
+To overcome this problem, one can simply navigate to <data_path>/Packages and create a symbolic link to the repo's "Clean" folder. For example, on macOS:
+
+ln -s <repo_path>/Clean/ <data_path>/Packages/Clean
+
+This way, every time you edit a file on your repo, you'll be editing the exact same file Sublime is loading. This enables running syntax tests directly on your repo files.
 
 Build Tool
 -------------
