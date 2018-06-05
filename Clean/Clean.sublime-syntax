@@ -58,22 +58,22 @@ contexts:
     - match: '(::)\s*({{upper_case_id}})\s*(?:\({{many_ids}}\))'
       scope: meta.import.explicit.type.clean
       captures:
-        1: keyword.other.clean
+        1: keyword.other.double-colon.clean
         2: storage.type.clean
     - match: '(::)\s*({{upper_case_id}})\s*(?:\{{{many_ids}}\})'
       scope: meta.import.explicit.type.clean
       captures:
-        1: keyword.other.clean
+        1: keyword.other.double-colon.clean
         2: storage.type.clean
     - match: '(::)\s*({{upper_case_id}})\s*(?:\(\.\.\))?'
       scope: meta.import.explicit.type.clean
       captures:
-        1: keyword.other.clean
+        1: keyword.other.double-colon.clean
         2: storage.type.clean
     - match: '(::)\s*({{upper_case_id}})\s*(?:\{\.\.\})?'
       scope: meta.import.explicit.type.clean
       captures:
-        1: keyword.other.clean
+        1: keyword.other.double-colon.clean
         2: storage.type.clean
   class_import:
     - match: '(class)\s+({{class_name}})'
@@ -95,7 +95,7 @@ contexts:
     - match: '(instance)\s+({{class_name}})'
       scope: meta.import.explicit.instance.clean
       captures:
-        1: keyword.other.clean
+        1: keyword.other.instance.clean
         2: entity.name.class.clean
         3: storage.type.clean
       push: type
@@ -103,7 +103,7 @@ contexts:
     - match: '(generic)\s+{{any_id}}'
       scope: meta.import.explicit.generic.clean
       captures:
-        1: keyword.other.clean
+        1: keyword.other.generic.clean
   imports:
     - include: hidden_import
     - include: qualified_import
@@ -121,14 +121,14 @@ contexts:
       scope: meta.import.qualified.clean
       captures:
         1: keyword.control.import.clean
-        2: keyword.control.import.clean
-        3: keyword.control.import.clean
+        2: keyword.control.qualified.clean
+        3: keyword.control.as.clean
         4: entity.name.namespace.clean
   from_import:
     - match: ^(from)\s+{{module_name}}\s+(import)
       scope: meta.import.from.clean
       captures:
-        1: keyword.control.import.clean
+        1: keyword.control.from.clean
         2: keyword.control.import.clean
   simple_import:
     - match: ^(import)\s+{{module_name}}
@@ -448,7 +448,7 @@ contexts:
     - match: '^(instance)\s+({{class_name}})'
       scope: meta.instance.clean
       captures:
-        1: keyword.other.clean
+        1: keyword.other.instance.clean
         2: entity.name.class.clean
       push:
         - include: constraint
@@ -483,7 +483,7 @@ contexts:
   generic:
     - match: (generic)\s+({{func_name}})\s+({{lower_case_id}})+
       captures:
-        1: keyword.other.clean
+        1: keyword.other.generic.clean
         2: entity.name.function.clean
         3: variable.parameter.clean
       push:
