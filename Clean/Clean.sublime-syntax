@@ -99,11 +99,11 @@ contexts:
         2: entity.name.class.clean
       push: type
   type:
-    - match: '(\#?\!?\*?\[\#?\!?(?:{{type_name}})?\!?\])'
+    - match: '(\.?\#?\!?\*?\[\#?\!?(?:{{type_name}})?\!?\])'
       scope: meta.import.explicit.instance.clean
       captures:
         1: storage.type.clean
-    - match: '(\#?\!?\*?\{\#?\!?(?:{{type_name}})?\!?\})'
+    - match: '(\.?\#?\!?\*?\{\#?\!?(?:{{type_name}})?\!?\})'
       scope: meta.import.explicit.instance.clean
       captures:
         1: storage.type.clean

@@ -56,11 +56,11 @@ import iTasks.Internal.SDS => qualified modify
 
 // ------------- Instances -------------
 
-instance MyClass [Int] where
+instance MyClass .[!Int!] where
 // ^ keyword.other.instance.clean
 //         ^ entity.name.class.clean
-//                 ^ storage.type.clean
-//                      ^ keyword.other.where.clean
+//               ^ storage.type.clean
+//                         ^ keyword.other.where.clean
 
 
 
