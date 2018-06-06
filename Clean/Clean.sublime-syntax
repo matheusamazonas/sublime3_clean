@@ -363,6 +363,13 @@ contexts:
         - match: $|;
           pop: true
         - include: operators
+    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)$|;'
+      captures:
+        1: keyword.other.double-colon.clean
+        2: entity.name.type.clean 
+      push:
+        - meta_scope: meta.definition.type.clean
+        - include: pop_if_new_def
   record_decl:
     - match: '\}'
       pop: true

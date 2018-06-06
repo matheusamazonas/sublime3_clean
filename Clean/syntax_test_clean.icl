@@ -1,5 +1,7 @@
 // SYNTAX TEST "Packages/Clean/Clean.sublime-syntax"
 
+// ------------- Imports -------------
+
 import Language.HB
 // ^ keyword.control.import.clean
 //    ^ meta.import.simple.clean
@@ -29,6 +31,15 @@ import iTasks.Internal.SDS => qualified modify
 // ^ keyword.control.import.clean
 //                         ^ keyword.control.hidden.clean
 //                              ^ keyword.control.qualified.clean
+
+// ------------- ADTs -------------
+
+:: Abstract
+// <- keyword.other.double-colon.clean
+//   ^ entity.name.type.clean
+//^ meta.definition.type.clean
+//         ^ meta.definition.type.clean
+
 
 
 
