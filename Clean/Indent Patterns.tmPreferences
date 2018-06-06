@@ -8,7 +8,7 @@
 	<key>settings</key>
 	<dict>
 		<key>increaseIndentPattern</key>
-		<string>((^.*(=|\bdo|\bwhere|\bthen|\belse|\bof)\s*$)|(^.*\bif(?!.*\bthen\b.*\belse\b.*).*$))</string>
+		<string>((^.*(=|\bwhere|\bif|\bof|\blet|\bwith)\s*$))</string>
 	</dict>
 </dict>
 </plist>
