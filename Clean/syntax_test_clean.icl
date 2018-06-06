@@ -10,7 +10,7 @@ from Data.Maybe import :: Maybe
 // ^ keyword.control.from.clean
 //                ^ keyword.control.import.clean
 //                     ^ keyword.other.double-colon.clean
-//                          ^storage.type.clean
+//                          ^ storage.type.clean
 
 from iTasks.WF.Definition import class iTask
 //                                      ^ entity.name.class.clean
@@ -18,8 +18,22 @@ from iTasks.WF.Definition import class iTask
 from Data.GenDefault import generic gDefault
 //                             ^ keyword.other.generic.clean
 
-from Data.List import instance Foldable []
-//                       ^keyword.other.instance.clean
+from Data.List import instance Foldable [Int]
+//                       ^ keyword.other.instance.clean
+//                                ^ entity.name.class.clean
+//                                      ^ storage.type.clean
+//                                          ^ storage.type.clean
+
+from Data.List import instance Foldable {!Int!}
+//                       ^ keyword.other.instance.clean
+//                                ^ entity.name.class.clean
+//                                       ^ storage.type.clean
+//                                            ^ storage.type.clean
+
+from Data.List import instance Foldable Maybe
+//                       ^ keyword.other.instance.clean
+//                                ^ entity.name.class.clean
+//                                       ^ storage.type.clean
 
 import qualified Data.List as DL
 // ^ keyword.control.import.clean
@@ -39,6 +53,15 @@ import iTasks.Internal.SDS => qualified modify
 //   ^ entity.name.type.clean
 //^ meta.definition.type.clean
 //         ^ meta.definition.type.clean
+
+// ------------- Instances -------------
+
+instance MyClass [Int] where
+// ^ keyword.other.instance.clean
+//         ^ entity.name.class.clean
+//                 ^ storage.type.clean
+//                      ^ keyword.other.where.clean
+
 
 
 

@@ -19,7 +19,7 @@ variables:
   class_name: '{{lower_case_id}}|{{upper_case_id}}|{{operator}}'
   operator: '(?:\.|{{funny_id}})+'
   constraint_name: '(?:{{any_id}}|{{operator}})(?:\{\|\*\|\})?'
-  type_name: '{{upper_case_id}}|\(\)'
+  type_name: '\(\)|{{upper_case_id}}'
 contexts:
   main:
     - include: module_declaration
@@ -97,8 +97,17 @@ contexts:
       captures:
         1: keyword.other.instance.clean
         2: entity.name.class.clean
-        3: storage.type.clean
       push: type
+  type:
+    - match: '(\#?\!?\*?\[\#?\!?(?:{{type_name}})?\!?\])'
+      scope: meta.import.explicit.instance.clean
+      captures:
+        1: storage.type.clean
+    - match: '(\#?\!?\*?\{\#?\!?(?:{{type_name}})?\!?\})'
+      scope: meta.import.explicit.instance.clean
+      captures:
+        1: storage.type.clean
+    - include: basic_type
   generic_import:
     - match: '(generic)\s+{{any_id}}'
       scope: meta.import.explicit.generic.clean
@@ -191,7 +200,7 @@ contexts:
         - include: type_signature
         - match: (?=$|;)
           pop: true
-  type:
+  basic_type:
     - match: (\#)
       captures:
         1: keyword.other.unboxed.clean
@@ -244,9 +253,21 @@ contexts:
       captures:
         1: keyword.other.clean
   local_def_keywords:
-    - match: \b(where|with|#|let|in)\b
+    - match: \b(where)\b
       captures:
-        1: keyword.other.clean
+        1: keyword.other.where.clean
+    - match: \b(with)\b
+      captures:
+        1: keyword.other.with.clean
+    - match: \b(#)\b
+      captures:
+        1: keyword.other.let-before.clean
+    - match: \b(let)\b
+      captures:
+        1: keyword.other.let.clean
+    - match: \b(in)\b
+      captures:
+        1: keyword.other.in.clean
   other_keywords:
     - match: \b(otherwise)\b
       captures:
@@ -465,9 +486,7 @@ contexts:
           pop: true
         - match: (?:$|;)
           pop: true
-        - match: '({{type_name}})'
-          captures: 
-            1: storage.type.clean
+        - include: type
         - match: '({{lower_case_id}})'
           captures:
             1: variable.parameter.clean
@@ -520,7 +539,7 @@ contexts:
           push:
             - match: (?=where)
               captures:
-                1: keyword.other.clean
+                1: keyword.other.where.clean
               pop: true
             - match: ({{lower_case_id}})\s*
               captures: 
