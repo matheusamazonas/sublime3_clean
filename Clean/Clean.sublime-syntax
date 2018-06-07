@@ -193,7 +193,7 @@ contexts:
       scope: meta.declaration.function.clean
       captures:
         1: entity.name.function.infix.clean
-        2: keyword.other.clean
+        2: keyword.other.infix.clean
         3: constant.numeric.integer.clean
         4: keyword.other.double-colon.clean
       push:
@@ -404,9 +404,10 @@ contexts:
   infix_constructor:
     - match: '(?:\()?({{func_name}})(?:\))?\s+(infix(?:r|l)?)\s+([0-9]+)\s*'
       captures:
-        1: entity.name.function.infix.clean
-        2: keyword.other.clean
+        1: entity.name.constructor.infix.clean
+        2: keyword.other.infix.clean
         3: constant.numeric.integer.clean
+        4: keyword.other.double-colon.clean
       push:
         - include: pop_if_new_def
         - match: '({{upper_case_id}})'
@@ -418,6 +419,8 @@ contexts:
         - match: (\|)
           captures:
             1: keyword.other.clean 
+          pop: true
+        - match: (?=\&)
           pop: true
   normal_constructor:
     - match: '({{upper_case_id}})'
@@ -451,6 +454,7 @@ contexts:
             1: keyword.colon.clean
         - include: exist_type_constraint
         - include: normal_constructor
+        - include: infix_constructor
         - match: $|;
           pop: true
   pop_if_new_def:   # Unfortunately we need lookahead for this
