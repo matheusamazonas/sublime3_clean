@@ -120,6 +120,19 @@ import iTasks.Internal.SDS => qualified modify
 
 //<- source.clean
 
+:: Sem a = S (State -> (a, State))
+// <- keyword.other.double-colon.clean
+//  ^ entity.name.type.clean
+//     ^ variable.parameter.clean
+//         ^ entity.name.constructor.clean
+//             ^ storage.type.clean
+//                  ^ keyword.other.arrow.clean
+//                      ^ variable.parameter.clean
+//                        ^ meta.constructor.clean
+//                           ^ storage.type.clean
+//                    ^ meta.constructor.clean
+
+//<- source.clean
 
 
 

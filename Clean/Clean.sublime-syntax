@@ -218,7 +218,7 @@ contexts:
         1: storage.type.clean
     - match: (->|→)
       captures:
-        1: keyword.other.arror.clean
+        1: keyword.other.arrow.clean
     - match: \(
       push: tuple_type
     - match: \{
@@ -410,9 +410,7 @@ contexts:
         4: keyword.other.double-colon.clean
       push:
         - include: pop_if_new_def
-        - match: '({{upper_case_id}})'
-          captures:
-            1: storage.type.clean 
+        - include: type
         - match: '({{lower_case_id}})'
           captures:
             1: variable.parameter.clean
@@ -429,9 +427,7 @@ contexts:
       push:
         - meta_scope: meta.constructor.clean
         - include: pop_if_new_def
-        - match: '({{upper_case_id}})'
-          captures:
-            1: storage.type.clean 
+        - include: type
         - match: '({{lower_case_id}})'
           captures:
             1: variable.parameter.clean
