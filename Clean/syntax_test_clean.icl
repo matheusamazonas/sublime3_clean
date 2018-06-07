@@ -55,6 +55,74 @@ import iTasks.Internal.SDS => qualified modify
 //         ^ meta.definition.type.clean
 //          ^ variable.parameter.clean
 
+//<- source.clean
+
+:: ExtADT = ..
+// <- keyword.other.double-colon.clean
+//   ^ entity.name.type.clean
+//        ^ keyword.other.clean
+//          ^ keyword.other.clean
+
+//<- source.clean
+
+:: ExtAdt | A Int | B Bool
+// <- keyword.other.double-colon.clean
+//   ^ entity.name.type.clean
+//        ^ keyword.other.clean
+//          ^ entity.name.constructor.clean
+//             ^ storage.type.clean
+//                ^ keyword.other.clean
+//                  ^ entity.name.constructor.clean
+//                     ^ storage.type.clean
+
+//<- source.clean
+
+:: SimpleType = Cons1 | Cons2 Int 
+// <- keyword.other.double-colon.clean
+//   ^ entity.name.type.clean
+//                ^ entity.name.constructor.clean
+//                    ^ keyword.other.clean
+//                         ^ entity.name.constructor.clean
+//                             ^ storage.type.clean
+
+//<- source.clean
+
+:: Type a b c = E.a: (==.) infix 4  (Expression a)  (Expression a) &  == a
+// <- keyword.other.double-colon.clean
+//   ^ entity.name.type.clean
+//      ^ variable.parameter.clean
+//        ^ variable.parameter.clean
+//          ^ variable.parameter.clean
+//              ^ keyword.existential.clean
+//                ^ variable.parameter.clean
+//                    ^ entity.name.constructor.infix.clean
+//                           ^ keyword.other.infix.clean
+//                                ^ meta.definition.type.clean
+//                               ^ constant.numeric.integer.clean
+//                                       ^ storage.type.clean
+//                                              ^ variable.parameter.clean
+//                                                ^ meta.definition.type.clean
+//                                                    ^ storage.type.clean
+//                                                      ^ storage.type.clean
+//                                                              ^ variable.parameter.clean
+//                                                                 ^ keyword.other.given_that.clean
+//                                                                  ^ meta.exist_constraint.clean
+//                                                                     ^ entity.name.class.clean
+//                                                                       ^ variable.parameter.clean
+
+//<- source.clean
+
+:: Set :== Expression [Int]
+// <- keyword.other.double-colon.clean
+//   ^ entity.name.type.clean
+//              ^ storage.type.clean
+//                      ^ storage.type.clean
+
+//<- source.clean
+
+
+
+
 
 // ------------- Instances -------------
 
