@@ -388,6 +388,7 @@ contexts:
       captures:
         1: keyword.other.double-colon.clean
         2: entity.name.type.clean 
+        3: variable.parameter.clean
       push:
         - meta_scope: meta.definition.type.clean
         - include: pop_if_new_def

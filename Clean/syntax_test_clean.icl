@@ -48,11 +48,13 @@ import iTasks.Internal.SDS => qualified modify
 
 // ------------- ADTs -------------
 
-:: Abstract
+:: Abstract a
 // <- keyword.other.double-colon.clean
 //   ^ entity.name.type.clean
 //^ meta.definition.type.clean
 //         ^ meta.definition.type.clean
+//          ^ variable.parameter.clean
+
 
 // ------------- Instances -------------
 
