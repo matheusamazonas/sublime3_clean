@@ -1,3 +1,6 @@
+# Taken from: https://github.com/randy3k/UnitTesting-example
+# by Randy Lai: https://github.com/randy3k
+
 env:
     global:
         - PACKAGE="Clean" # Package name
