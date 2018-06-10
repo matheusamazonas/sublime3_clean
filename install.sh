@@ -5,7 +5,7 @@ user_dir="$HOME/Library/Application Support/Sublime Text 3/Installed Packages"
 # If it was installed in a custom directory, place it here (until the Packages folder, see above)
 custom_dir=""
 
-cd Clean
+#cd Clean
 
 if [ -d "$user_dir" ]
 then
