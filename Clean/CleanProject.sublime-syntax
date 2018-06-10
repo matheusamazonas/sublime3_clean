@@ -1,0 +1,43 @@
+%YAML 1.2
+---
+# Syntax highlighting in Sublime3: http://www.sublimetext.com/docs/3/syntax.html
+# Scope naming: https://www.sublimetext.com/docs/3/scope_naming.html
+name: Clean Project
+file_extensions: [prj]
+scope: source.clean-project
+
+variables:
+  upper_case_id: "(?:[A-Z][A-Za-z0-9_`]*)"
+
+contexts:
+  main:
+    - include: scope
+    - include: key_entry
+    - include: float
+    - include: integer
+    - include: bool
+  scope:
+    - match: '^\s*({{upper_case_id}})\s*$'
+      scope: meta.scope.clean-project
+      captures:
+        1: entity.name.scope.clean-project
+  key_entry:
+    - match: '\s*({{upper_case_id}})\:'
+      scope: meta.key.clean-project
+      captures:
+        1: entity.name.tag.clean-project
+  float:
+    - match: '(\b[0-9]+\.[0-9]+\b)'
+      captures:
+        1: constant.numeric.float.clean-project
+  integer:
+    - match: '(\b((?:-)?[1-9]+[0-9]*)\b)'
+      captures:
+        1: constant.numeric.integer.clean-project
+    - match: (\b0\b)
+      captures:
+        1: constant.numeric.integer.clean-project
+  bool:
+    - match: \b(True|False)\b
+      captures:
+        1: constant.numeric.bool.clean-project
