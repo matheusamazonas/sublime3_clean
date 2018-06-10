@@ -5,32 +5,46 @@
 import Language.HB
 // ^ keyword.control.import.clean
 //    ^ meta.import.simple.clean
+//        ^ entity.name.namespace.clean
+
+import module1, module2
+// ^ keyword.control.import.clean
+//    ^ meta.import.simple.clean
+//        ^ entity.name.namespace.clean
+//                ^ entity.name.namespace.clean
+
 
 from Data.Maybe import :: Maybe
 // ^ keyword.control.from.clean
+//        ^ entity.name.namespace.clean
 //                ^ keyword.control.import.clean
 //                     ^ keyword.other.double-colon.clean
 //                          ^ storage.type.clean
 
 from iTasks.WF.Definition import class iTask
+//        ^ entity.name.namespace.clean
 //                                      ^ entity.name.class.clean
 
 from Data.GenDefault import generic gDefault
+//        ^ entity.name.namespace.clean
 //                             ^ keyword.other.generic.clean
 
 from Data.List import instance Foldable [Int]
+//        ^ entity.name.namespace.clean
 //                       ^ keyword.other.instance.clean
 //                                ^ entity.name.class.clean
 //                                      ^ storage.type.clean
 //                                          ^ storage.type.clean
 
 from Data.List import instance Foldable {!Int!}
+//        ^ entity.name.namespace.clean
 //                       ^ keyword.other.instance.clean
 //                                ^ entity.name.class.clean
 //                                       ^ storage.type.clean
 //                                            ^ storage.type.clean
 
 from Data.List import instance Foldable Maybe
+//        ^ entity.name.namespace.clean
 //                       ^ keyword.other.instance.clean
 //                                ^ entity.name.class.clean
 //                                       ^ storage.type.clean
@@ -38,11 +52,13 @@ from Data.List import instance Foldable Maybe
 import qualified Data.List as DL
 // ^ keyword.control.import.clean
 //       ^ keyword.control.qualified.clean
+//                 ^ entity.name.namespace.clean
 //                         ^ keyword.control.as.clean
 //                            ^ entity.name.namespace.clean
 
 import iTasks.Internal.SDS => qualified modify
 // ^ keyword.control.import.clean
+//        ^ entity.name.namespace.clean
 //                         ^ keyword.control.hidden.clean
 //                              ^ keyword.control.qualified.clean
 
