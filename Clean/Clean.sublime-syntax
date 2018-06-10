@@ -25,30 +25,61 @@ contexts:
     - include: module_declaration
     - include: comments
     - include: imports
-    - include: class_def
+    - include: class_decl
     - include: type_decl
     - include: instance
-    - include: derive
-    - include: generic
+    - include: derive_decl
+    - include: generic_decl
     - include: dynamic
     - include: function_type_decl
     - include: explicit_imports
     - include: control_keywords
     - include: local_def_keywords
-    - include: other_keywords
     - include: operators
     - include: basic_types
-    - include: qualified_module_name
     - include: open_brackets
-  open_brackets:
-    - match: \(
-      push: close_brackets
-    - match: \)
-      scope: invalid.illegal.stray-bracket-end
-  close_brackets:
-    - match: \)
-      pop: true
-    - include: main
+## ------------- Import -------------
+  imports:
+    - include: hidden_import
+    - include: qualified_import
+    - include: simple_import
+    - include: from_import
+  hidden_import:
+    - match: '^(import)\s+({{module_name}})\s+(\=\>)\s+(qualified)'
+      scope: meta.import.simple.clean
+      captures:
+        1: keyword.control.import.clean
+        2: entity.name.namespace.clean
+        3: keyword.control.hidden.clean
+        4: keyword.control.qualified.clean
+  qualified_import:
+    - match: ^(import)\s+(qualified)\s+({{module_name}})\s+(as)\s+({{module_name}})
+      scope: meta.import.qualified.clean
+      captures:
+        1: keyword.control.import.clean
+        2: keyword.control.qualified.clean
+        3: entity.name.namespace.clean
+        4: keyword.control.as.clean
+        5: entity.name.namespace.clean
+  simple_import:
+    - match: ^(import)\s+({{module_name}})
+      scope: meta.import.simple.clean
+      captures:
+        1: keyword.control.import.clean
+        2: entity.name.namespace.clean
+      push:
+        - match: ({{module_name}})
+          captures:
+            1: entity.name.namespace.clean
+        - match: $|;
+          pop: true
+  from_import:
+    - match: ^(from)\s+({{module_name}})\s+(import)
+      scope: meta.import.from.clean
+      captures:
+        1: keyword.control.from.clean
+        2: entity.name.namespace.clean
+        3: keyword.control.import.clean
   explicit_imports:
     - include: type_import
     - include: class_import
@@ -98,6 +129,17 @@ contexts:
         1: keyword.other.instance.clean
         2: entity.name.class.clean
       push: type
+  generic_import:
+    - match: '(generic)\s+{{any_id}}'
+      scope: meta.import.explicit.generic.clean
+      captures:
+        1: keyword.other.generic.clean
+  pop_if_new_import:
+    - match: '(?=from)'
+      pop: true
+    - match: '(?=import)'
+      pop: true
+## ------------- Type -------------
   type:
     - match: '(\.?\#?\!?\*?\[\#?\!?(?:{{type_name}})?\!?\])'
       scope: meta.import.explicit.instance.clean
@@ -108,108 +150,6 @@ contexts:
       captures:
         1: storage.type.clean
     - include: basic_type
-  generic_import:
-    - match: '(generic)\s+{{any_id}}'
-      scope: meta.import.explicit.generic.clean
-      captures:
-        1: keyword.other.generic.clean
-  imports:
-    - include: hidden_import
-    - include: qualified_import
-    - include: simple_import
-    - include: from_import
-  hidden_import:
-    - match: '^(import)\s+({{module_name}})\s+(\=\>)\s+(qualified)'
-      scope: meta.import.simple.clean
-      captures:
-        1: keyword.control.import.clean
-        2: entity.name.namespace.clean
-        3: keyword.control.hidden.clean
-        4: keyword.control.qualified.clean
-  qualified_import:
-    - match: ^(import)\s+(qualified)\s+({{module_name}})\s+(as)\s+({{module_name}})
-      scope: meta.import.qualified.clean
-      captures:
-        1: keyword.control.import.clean
-        2: keyword.control.qualified.clean
-        3: entity.name.namespace.clean
-        4: keyword.control.as.clean
-        5: entity.name.namespace.clean
-  from_import:
-    - match: ^(from)\s+({{module_name}})\s+(import)
-      scope: meta.import.from.clean
-      captures:
-        1: keyword.control.from.clean
-        2: entity.name.namespace.clean
-        3: keyword.control.import.clean
-  simple_import:
-    - match: ^(import)\s+({{module_name}})
-      scope: meta.import.simple.clean
-      captures:
-        1: keyword.control.import.clean
-        2: entity.name.namespace.clean
-      push:
-        - match: ({{module_name}})
-          captures:
-            1: entity.name.namespace.clean
-        - match: $|;
-          pop: true
-  comments:
-    - include: line_comments
-    - include: block_comments
-  line_comments:
-    - match: (\/\/)
-      captures:
-        1: punctuation.definition.comment.clean
-      push:
-        - meta_scope: comment.line.clean
-        - match: \n
-          pop: true
-  block_comments:
-    - match: (\/\*)
-      captures: 
-        1: punctuation.definition.comment.clean
-      push:
-        - meta_scope: comment.block.clean
-        - match: (\*\/)
-          captures:
-            1: punctuation.definition.comment.clean
-          pop: true
-  module_declaration:
-    - match: ^(implementation|definition|system)
-      captures:
-        1: keyword.other.clean
-    - match: (module)
-      captures:
-        1: keyword.other.clean
-      push: 
-        - meta_scope: meta.declaration.module.clean
-        - match: '{{module_name}}'
-          captures:
-            1: entity.name.namespace.clean
-        - match: ($|;)
-          pop: true
-  function_type_decl:
-    - match: '(?:\()?({{func_name}})(?:\))?\s*(::|∷)'
-      captures:
-        1: entity.name.function.clean
-        2: keyword.other.double-colon.clean
-      push:
-        - meta_scope: meta.declaration.function.clean
-        - include: type_signature
-        - match: (?=$|;)
-          pop: true
-    - match: '\(({{func_name}})\)\s+(infix(?:r|l)?)\s+([0-9]+)\s*(::|∷)'
-      scope: meta.declaration.function.clean
-      captures:
-        1: entity.name.function.infix.clean
-        2: keyword.other.infix.clean
-        3: constant.numeric.integer.clean
-        4: keyword.other.double-colon.clean
-      push:
-        - include: type_signature
-        - match: (?=$|;)
-          pop: true
   basic_type:
     - match: (\#)
       captures:
@@ -250,71 +190,6 @@ contexts:
     - match: \}
       pop: true
     - include: type
-  type_signature: 
-    - include: comments
-    - include: constraint
-    - include: type
-  operators:
-    - match: '({{operator}})'
-      captures:
-        1: keyword.operator.clean
-  control_keywords:
-    - match: \b(if|case|of)\b
-      captures:
-        1: keyword.other.clean
-  local_def_keywords:
-    - match: \b(where)\b
-      captures:
-        1: keyword.other.where.clean
-    - match: \b(with)\b
-      captures:
-        1: keyword.other.with.clean
-    - match: \b(#)\b
-      captures:
-        1: keyword.other.let-before.clean
-    - match: \b(let)\b
-      captures:
-        1: keyword.other.let.clean
-    - match: \b(in)\b
-      captures:
-        1: keyword.other.in.clean
-  other_keywords:
-    - match: \b(otherwise)\b
-      captures:
-        1: keyword.other.clean
-  class_def:
-    - match: '^(class)\s+({{class_name}})\s+'
-      scope: meta.class.clean
-      captures:
-        1: keyword.other.clean
-        2: entity.name.class.clean
-      push:
-        - match: (where)
-          captures:
-            1: keyword.other.clean
-          pop: true
-        - match: ({{lower_case_id}})\s*
-          captures:
-            1: variable.parameter.clean
-        - include: constraint
-        - match: (::)
-          captures:
-            1: keyword.other.double-colon.clean
-          push:
-            - include: type_signature
-            - match: ($|;)
-              pop: true
-        - match: ($|;)
-          pop: true
-    - match: '^(class)\s+({{class_name}})'
-      scope: meta.class.clean
-      captures:
-        1: keyword.other.clean
-        2: entity.name.class.clean
-      push:
-        - include: function_type_decl
-        - match: (?=$|;)
-          pop: true
   basic_types:
     - match: '"'
       push:
@@ -350,120 +225,102 @@ contexts:
     - match: \b(Left|Right)\b
       captures:
         1: constant.language.clean
-  qualified_module_name:
-    - match: \'({{upper_case_id}}|{{lower_case_id}})\'
-      captures:
-        1: entity.name.namespace.clean
-  type_decl:
-    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(\=)\s*(\.\.)' # Extendable ADTs
-      captures:
-        1: keyword.other.double-colon.clean
-        2: entity.name.type.clean 
-        3: variable.parameter.clean
-        4: keyword.other.clean
-        5: keyword.other.clean
-      push:
-        - meta_scope: meta.definition.type.clean
-        - match: $|;
-          pop: true
-    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(\=|\|)\s*'
-      captures:
-        1: keyword.other.double-colon.clean
-        2: entity.name.type.clean 
-        3: variable.parameter.clean
-        4: keyword.other.clean
-      push:
-        - meta_scope: meta.definition.type.clean
-        - match: \{
-          push:
-            - include: record_decl
-        - include: constructors
-        - include: pop_if_new_def
-    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(:==)\s*'
-      captures:
-        1: keyword.other.double-colon.clean
-        2: entity.name.type.clean 
-        3: variable.parameter.clean
-        4: keyword.other.clean
-      push:
-        - include: qualified_module_name
-        - meta_scope: meta.definition.type.clean
-        - match: '({{upper_case_id}})'
-          captures:
-            1: storage.type.clean
-        - match: $|;
-          pop: true
-        - include: operators
-    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)$|;'
-      captures:
-        1: keyword.other.double-colon.clean
-        2: entity.name.type.clean 
-        3: variable.parameter.clean
-      push:
-        - meta_scope: meta.definition.type.clean
-        - include: pop_if_new_def
-  record_decl:
-    - match: '\}'
-      pop: true
-    - include: function_type_decl
-  constructors:
+  type_signature: 
     - include: comments
-    - include: existential_constructor
-    - include: infix_constructor
-    - include: normal_constructor
-  infix_constructor:
-    - match: '(?:\()?({{func_name}})(?:\))?\s+(infix(?:r|l)?)\s+([0-9]+)\s*'
+    - include: constraint
+    - include: type
+## ------------- Comment -------------
+  comments:
+    - include: line_comments
+    - include: block_comments
+  line_comments:
+    - match: (\/\/)
       captures:
-        1: entity.name.constructor.infix.clean
+        1: punctuation.definition.comment.clean
+      push:
+        - meta_scope: comment.line.clean
+        - match: \n
+          pop: true
+  block_comments:
+    - match: (\/\*)
+      captures: 
+        1: punctuation.definition.comment.clean
+      push:
+        - meta_scope: comment.block.clean
+        - match: (\*\/)
+          captures:
+            1: punctuation.definition.comment.clean
+          pop: true
+## ------------- Declaration -------------
+  module_declaration:
+    - match: ^(implementation|definition|system)
+      captures:
+        1: keyword.other.clean
+    - match: (module)
+      captures:
+        1: keyword.other.clean
+      push: 
+        - meta_scope: meta.declaration.module.clean
+        - match: '{{module_name}}'
+          captures:
+            1: entity.name.namespace.clean
+        - match: ($|;)
+          pop: true
+  function_type_decl:
+    - match: '(?:\()?({{func_name}})(?:\))?\s*(::|∷)'
+      captures:
+        1: entity.name.function.clean
+        2: keyword.other.double-colon.clean
+      push:
+        - meta_scope: meta.declaration.function.clean
+        - include: type_signature
+        - match: (?=$|;)
+          pop: true
+    - match: '\(({{func_name}})\)\s+(infix(?:r|l)?)\s+([0-9]+)\s*(::|∷)'
+      scope: meta.declaration.function.clean
+      captures:
+        1: entity.name.function.infix.clean
         2: keyword.other.infix.clean
         3: constant.numeric.integer.clean
         4: keyword.other.double-colon.clean
       push:
-        - include: pop_if_new_def
-        - include: type
-        - match: '({{lower_case_id}})'
-          captures:
-            1: variable.parameter.clean
-        - match: (\|)
-          captures:
-            1: keyword.other.clean 
+        - include: type_signature
+        - match: (?=$|;)
           pop: true
-        - match: (?=\&)
-          pop: true
-  normal_constructor:
-    - match: '({{upper_case_id}})'
+  class_decl:
+    - match: '^(class)\s+({{class_name}})\s+'
+      scope: meta.class.clean
       captures:
-        1: entity.name.constructor.clean
+        1: keyword.other.clean
+        2: entity.name.class.clean
       push:
-        - meta_scope: meta.constructor.clean
-        - include: pop_if_new_def
-        - include: type
-        - match: '({{lower_case_id}})'
+        - match: (where)
+          captures:
+            1: keyword.other.clean
+          pop: true
+        - match: ({{lower_case_id}})\s*
           captures:
             1: variable.parameter.clean
-        - match: (\|)
+        - include: constraint
+        - match: (::)
           captures:
-            1: keyword.other.clean 
+            1: keyword.other.double-colon.clean
+          push:
+            - include: type_signature
+            - match: ($|;)
+              pop: true
+        - match: ($|;)
           pop: true
-        - match: (?=\&)
-          pop: true
-  existential_constructor:
-    - match: (E\.)
+    - match: '^(class)\s+({{class_name}})'
+      scope: meta.class.clean
       captures:
-        1: keyword.existential.clean
+        1: keyword.other.clean
+        2: entity.name.class.clean
       push:
-        - match: '({{lower_case_id}})'
-          captures:
-            1: variable.parameter.clean
-        - match: '(:)'
-          captures:
-            1: keyword.colon.clean
-        - include: exist_type_constraint
-        - include: normal_constructor
-        - include: infix_constructor
-        - match: $|;
+        - include: function_type_decl
+        - match: (?=$|;)
           pop: true
-  pop_if_new_def:   # Unfortunately we need lookahead for this
+  pop_if_new_decl:   # Unfortunately we need lookahead for this
     - match: '^(?=\s*::)'
       pop: true
     - match: '^(?=^\s*{{lower_case_id}})'
@@ -477,11 +334,6 @@ contexts:
     - match: (?=\/\*)
       pop: true
     - match: (?=\/\/)
-      pop: true
-  pop_if_new_import:
-    - match: '(?=from)'
-      pop: true
-    - match: '(?=import)'
       pop: true
   instance:
     - match: '^(instance)\s+({{class_name}})'
@@ -501,7 +353,7 @@ contexts:
         - match: '({{lower_case_id}})'
           captures:
             1: variable.parameter.clean
-  derive:
+  derive_dcl:
     - match: '(derive)'
       captures:
         1: keyword.other.clean
@@ -517,7 +369,7 @@ contexts:
             3: storage.type.clean
         - match: ($|;)
           pop: true
-  generic:
+  generic_decl:
     - match: (generic)\s+({{func_name}})\s+({{lower_case_id}})+
       captures:
         1: keyword.other.generic.clean
@@ -563,6 +415,118 @@ contexts:
           pop: true
         - match: ($|;)
           pop: true
+## ------------- Type Declaration -------------
+  type_decl:
+    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(\=)\s*(\.\.)' # Extendable ADTs
+      captures:
+        1: keyword.other.double-colon.clean
+        2: entity.name.type.clean 
+        3: variable.parameter.clean
+        4: keyword.other.clean
+        5: keyword.other.clean
+      push:
+        - meta_scope: meta.definition.type.clean
+        - match: $|;
+          pop: true
+    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(\=|\|)\s*'
+      captures:
+        1: keyword.other.double-colon.clean
+        2: entity.name.type.clean 
+        3: variable.parameter.clean
+        4: keyword.other.clean
+      push:
+        - meta_scope: meta.definition.type.clean
+        - match: \{
+          push:
+            - include: record_decl
+        - include: constructors
+        - include: pop_if_new_decl
+    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(:==)\s*'
+      captures:
+        1: keyword.other.double-colon.clean
+        2: entity.name.type.clean 
+        3: variable.parameter.clean
+        4: keyword.other.clean
+      push:
+        - match: \'({{upper_case_id}}|{{lower_case_id}})\'
+          captures:
+            1: entity.name.namespace.clean
+        - meta_scope: meta.definition.type.clean
+        - match: '({{upper_case_id}})'
+          captures:
+            1: storage.type.clean
+        - match: $|;
+          pop: true
+        - include: operators
+    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)$|;'
+      captures:
+        1: keyword.other.double-colon.clean
+        2: entity.name.type.clean 
+        3: variable.parameter.clean
+      push:
+        - meta_scope: meta.definition.type.clean
+        - include: pop_if_new_decl
+  record_decl:
+    - match: '\}'
+      pop: true
+    - include: function_type_decl
+  constructors:
+    - include: comments
+    - include: existential_constructor
+    - include: infix_constructor
+    - include: normal_constructor
+  infix_constructor:
+    - match: '(?:\()?({{func_name}})(?:\))?\s+(infix(?:r|l)?)\s+([0-9]+)\s*'
+      captures:
+        1: entity.name.constructor.infix.clean
+        2: keyword.other.infix.clean
+        3: constant.numeric.integer.clean
+        4: keyword.other.double-colon.clean
+      push:
+        - include: pop_if_new_decl
+        - include: type
+        - match: '({{lower_case_id}})'
+          captures:
+            1: variable.parameter.clean
+        - match: (\|)
+          captures:
+            1: keyword.other.clean 
+          pop: true
+        - match: (?=\&)
+          pop: true
+  normal_constructor:
+    - match: '({{upper_case_id}})'
+      captures:
+        1: entity.name.constructor.clean
+      push:
+        - meta_scope: meta.constructor.clean
+        - include: pop_if_new_decl
+        - include: type
+        - match: '({{lower_case_id}})'
+          captures:
+            1: variable.parameter.clean
+        - match: (\|)
+          captures:
+            1: keyword.other.clean 
+          pop: true
+        - match: (?=\&)
+          pop: true
+  existential_constructor:
+    - match: (E\.)
+      captures:
+        1: keyword.existential.clean
+      push:
+        - match: '({{lower_case_id}})'
+          captures:
+            1: variable.parameter.clean
+        - match: '(:)'
+          captures:
+            1: keyword.colon.clean
+        - include: exist_type_constraint
+        - include: normal_constructor
+        - include: infix_constructor
+        - match: $|;
+          pop: true
   exist_type_constraint:
     - match: '(\&)'
       captures:
@@ -585,6 +549,37 @@ contexts:
               pop: true
         - match: (?=$|;)
           pop: true
+## ------------- Keyword -------------
+  control_keywords:
+    - match: \b(if)\b
+      captures:
+        1: keyword.other.if.clean
+    - match: \b(case)\b
+      captures:
+        1: keyword.other.case.clean
+    - match: \b(of)\b
+      captures:
+        1: keyword.other.of.clean
+    - match: \b(otherwise)\b
+      captures:
+        1: keyword.other.otherwise.clean
+  local_def_keywords:
+    - match: \b(where)\b
+      captures:
+        1: keyword.other.where.clean
+    - match: \b(with)\b
+      captures:
+        1: keyword.other.with.clean
+    - match: \b(#)\b
+      captures:
+        1: keyword.other.let-before.clean
+    - match: \b(let)\b
+      captures:
+        1: keyword.other.let.clean
+    - match: \b(in)\b
+      captures:
+        1: keyword.other.in.clean
+## ------------- Other -------------
   dynamic:
     - match: '\(({{lower_case_id}})\s*(\:\:)'
       captures:
@@ -596,7 +591,18 @@ contexts:
           pop: true
     - match: \)
       pop: true
-
-
+  open_brackets:
+    - match: \(
+      push: close_brackets
+    - match: \)
+      scope: invalid.illegal.stray-bracket-end
+  close_brackets:
+    - match: \)
+      pop: true
+    - include: main
+  operators:
+    - match: '({{operator}})'
+      captures:
+        1: keyword.operator.clean
 
 
