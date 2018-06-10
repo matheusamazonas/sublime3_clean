@@ -353,7 +353,7 @@ contexts:
         - match: '({{lower_case_id}})'
           captures:
             1: variable.parameter.clean
-  derive_dcl:
+  derive_decl:
     - match: '(derive)'
       captures:
         1: keyword.other.clean
