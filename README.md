@@ -38,7 +38,7 @@ Due to SublimeText's limitations, a syntax test will only run on files that live
 To overcome this problem, one can simply navigate to `<data_path>/Packages` and create a symbolic link to the repo's `Clean` folder. For example, on macOS:
 
 ```shell session
-ln -s <repo_path>/Clean/ <data_path>/Packages/Clean
+ln -s <repo_path> <data_path>/Packages/Clean
 ```
 
 This way, every time you edit a file on your repo, you'll be editing the exact same file Sublime is loading. This enables running syntax tests directly on your repo files.
