@@ -161,6 +161,14 @@ instance MyClass .[!Int!] where
 //               ^ storage.type.clean
 //                         ^ keyword.other.where.clean
 
+instance toByteCode Heartbeat, (SP02, Bool)
+// ^ keyword.other.instance.clean
+//           ^ entity.name.class.clean
+//                     ^ storage.type.clean
+//                               ^ storage.type.clean
+//                                    ^ storage.type.clean
+
+
 
 
 

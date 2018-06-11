@@ -142,11 +142,9 @@ contexts:
 ## ------------- Type -------------
   type:
     - match: '(\.?\#?\!?\*?\[\#?\!?(?:{{type_name}})?\!?\])'
-      scope: meta.import.explicit.instance.clean
       captures:
         1: storage.type.clean
     - match: '(\.?\#?\!?\*?\{\#?\!?(?:{{type_name}})?\!?\})'
-      scope: meta.import.explicit.instance.clean
       captures:
         1: storage.type.clean
     - include: basic_type
@@ -173,8 +171,6 @@ contexts:
       push: tuple_type
     - match: \{
       push: array_type
-    - match: ','
-      pop: true
     - match: (?=$|;)
       pop: true
     - match: '(?=\})'       # We need the lookahead to see if it's a record
@@ -342,6 +338,7 @@ contexts:
         1: keyword.other.instance.clean
         2: entity.name.class.clean
       push:
+        - meta_scope: meta.instance.clean
         - include: constraint
         - match: (?=where)
           captures:
@@ -448,13 +445,11 @@ contexts:
         3: variable.parameter.clean
         4: keyword.other.clean
       push:
+        - meta_scope: meta.definition.type.clean
         - match: \'({{upper_case_id}}|{{lower_case_id}})\'
           captures:
             1: entity.name.namespace.clean
-        - meta_scope: meta.definition.type.clean
-        - match: '({{upper_case_id}})'
-          captures:
-            1: storage.type.clean
+        - include: type
         - match: $|;
           pop: true
         - include: operators
