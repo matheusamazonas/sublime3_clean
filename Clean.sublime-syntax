@@ -382,7 +382,7 @@ contexts:
   constraint:
     - match: '(\|)'
       captures:
-        1: keyword.other.given_that.clean
+        1: keyword.other.given-that.clean
       push:
         - meta_scope: meta.constraint.clean
         - include: comments
@@ -408,6 +408,7 @@ contexts:
               pop: true
             - match: (?=&)
               pop: true
+            - include: comments
         - match: (?=where)  
           pop: true
         - match: ($|;)
@@ -525,7 +526,7 @@ contexts:
   exist_type_constraint:
     - match: '(\&)'
       captures:
-        1: keyword.other.given_that.clean
+        1: keyword.other.given-that.clean
       push:
         - meta_scope: meta.exist_constraint.clean
         - include: comments

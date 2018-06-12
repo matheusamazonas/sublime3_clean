@@ -121,7 +121,7 @@ import iTasks.Internal.SDS => qualified modify
 //                                                    ^ storage.type.clean
 //                                                      ^ storage.type.clean
 //                                                              ^ variable.parameter.clean
-//                                                                 ^ keyword.other.given_that.clean
+//                                                                 ^ keyword.other.given-that.clean
 //                                                                  ^ meta.exist_constraint.clean
 //                                                                     ^ entity.name.class.clean
 //                                                                       ^ variable.parameter.clean
@@ -167,6 +167,27 @@ instance toByteCode Heartbeat, (SP02, Bool)
 //                     ^ storage.type.clean
 //                               ^ storage.type.clean
 //                                    ^ storage.type.clean
+
+
+// ------------- Functions -------------
+print :: (v LCD Expr) (v t p) -> v Int Expr  | stringQuotes a // returns bytes written
+// ^ entity.name.function.clean
+//     ^ keyword.other.double-colon.clean
+//        ^ variable.parameter.clean
+//           ^ storage.type.clean
+//               ^ storage.type.clean
+//                     ^ variable.parameter.clean
+//                       ^ variable.parameter.clean
+//                         ^ variable.parameter.clean
+//                               ^ variable.parameter.clean
+//                                  ^ storage.type.clean
+//                                     ^ storage.type.clean
+//                                           ^ keyword.other.given-that.clean
+//                                               ^ entity.name.class.clean
+//                                                          ^ variable.parameter.clean
+//                                                                 ^ comment.line.clean
+
+
 
 
 
