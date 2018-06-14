@@ -350,6 +350,7 @@ contexts:
         - match: '({{lower_case_id}})'
           captures:
             1: variable.parameter.clean
+        - include: comments
   derive_decl:
     - match: '(derive)'
       captures:

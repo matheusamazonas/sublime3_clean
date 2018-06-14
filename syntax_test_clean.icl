@@ -151,8 +151,6 @@ import iTasks.Internal.SDS => qualified modify
 //<- source.clean
 
 
-
-
 // ------------- Instances -------------
 
 instance MyClass .[!Int!] where
@@ -167,6 +165,19 @@ instance toByteCode Heartbeat, (SP02, Bool)
 //                     ^ storage.type.clean
 //                               ^ storage.type.clean
 //                                    ^ storage.type.clean
+
+instance toByteCode Int, Bool, Char, Long, String, /*Button,*/ BCValue, ()
+// ^ keyword.other.instance.clean
+//           ^ entity.name.class.clean
+//                   ^ storage.type.clean
+//                        ^ storage.type.clean
+//                              ^ storage.type.clean
+//                                    ^ storage.type.clean
+//                                          ^ storage.type.clean
+//                                                     ^ comment.block.clean
+//                                                               ^ storage.type.clean
+//                                                                      ^ storage.type.clean
+
 
 
 // ------------- Functions -------------
