@@ -393,6 +393,8 @@ contexts:
         - match: ({{constraint_name}})\s*,
           captures: 
             1: entity.name.class.clean
+        - match: (?=where)  
+          pop: true
         - match: ({{constraint_name}})\s+({{lower_case_id}})\s*
           captures: 
             1: entity.name.class.clean
@@ -410,8 +412,6 @@ contexts:
             - match: (?=&)
               pop: true
             - include: comments
-        - match: (?=where)  
-          pop: true
         - match: ($|;)
           pop: true
 ## ------------- Type Declaration -------------

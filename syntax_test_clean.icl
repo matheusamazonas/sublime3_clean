@@ -178,9 +178,17 @@ instance toByteCode Int, Bool, Char, Long, String, /*Button,*/ BCValue, ()
 //                                                               ^ storage.type.clean
 //                                                                      ^ storage.type.clean
 
-
+instance toByteCode [a] | toByteCode a where toByteCode x = concat $ map toByteCode x
+// ^ keyword.other.instance.clean
+//           ^ entity.name.class.clean
+//                   ^ variable.parameter.clean
+//                      ^ keyword.other.given-that.clean
+//                           ^ entity.name.class.clean
+//                                   ^ variable.parameter.clean
+//                                       ^ keyword.other.where.clean
 
 // ------------- Functions -------------
+
 print :: (v LCD Expr) (v t p) -> v Int Expr  | stringQuotes a // returns bytes written
 // ^ entity.name.function.clean
 //     ^ keyword.other.double-colon.clean
