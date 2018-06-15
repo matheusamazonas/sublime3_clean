@@ -8,7 +8,7 @@ custom_dir=""
 if [ -d "$user_dir" ]
 then
 	echo "Compressing the folder"
-	zip -r Clean.zip *
+	zip -r Clean.zip *.sublime-build *.sublime-syntax *.tmPreferences *.py *.icl
 	echo "Moving the file"
 	mv Clean.zip "$user_dir/Clean.sublime-package"
 	echo "Done"
