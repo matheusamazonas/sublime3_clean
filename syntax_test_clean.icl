@@ -49,6 +49,16 @@ from Data.List import instance Foldable Maybe
 //                                ^ entity.name.class.clean
 //                                       ^ storage.type.clean
 
+from Data.List import tail, instance Foldable [], replaceInList, replicate
+// ^ keyword.control.from.clean
+//        ^ entity.name.namespace.clean
+//                ^ keyword.control.import.clean
+//                             ^ keyword.other.instance.clean
+//                                     ^ entity.name.class.clean
+//                                            ^ storage.type.clean
+//                                                    ^ source.clean
+//                                                                  ^ source.clean
+
 import qualified Data.List as DL
 // ^ keyword.control.import.clean
 //       ^ keyword.control.qualified.clean

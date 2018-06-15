@@ -128,7 +128,10 @@ contexts:
       captures:
         1: keyword.other.instance.clean
         2: entity.name.class.clean
-      push: type
+      push:
+        - match: ','
+          pop: true 
+        - include: type
   generic_import:
     - match: '(generic)\s+{{any_id}}'
       scope: meta.import.explicit.generic.clean
