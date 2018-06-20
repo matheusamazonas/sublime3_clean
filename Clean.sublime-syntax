@@ -355,19 +355,25 @@ contexts:
             1: variable.parameter.clean
         - include: comments
   derive_decl:
-    - match: '(derive)'
+    - match: '(derive)\s+(class)\s+({{class_name}})'
       captures:
-        1: keyword.other.clean
+        1: keyword.other.derive.clean
+        2: keyword.other.class.clean
+        3: entity.name.class.clean
       push:
         - meta_scope: meta.derive.clean
-        - match: (class)
-          captures: 
-            1: keyword.other.
-        - match: '({{func_name}})|({{class_name}})\s+({{upper_case_id}})+'
-          captures:
-            1: entity.name.function.clean
-            2: entity.name.class.clean
-            3: storage.type.clean
+        - include: comments
+        - include: type
+        - match: ($|;)
+          pop: true
+    - match: '(derive)\s+({{func_name}})\s+'
+      captures:
+        1: keyword.other.derive.clean
+        2: entity.name.function.clean
+      push:
+        - meta_scope: meta.derive.clean
+        - include: comments
+        - include: type
         - match: ($|;)
           pop: true
   generic_decl:

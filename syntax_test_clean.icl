@@ -217,7 +217,26 @@ print :: (v LCD Expr) (v t p) -> v Int Expr  | stringQuotes a // returns bytes w
 //                                                                 ^ comment.line.clean
 
 
+// ------------- Derive -------------
 
+derive gText Type1, Type2, /*comment*/ Type3 /*comment*/
+// ^ keyword.other.derive.clean
+//      ^ entity.name.function.clean
+//            ^ storage.type.clean
+//                   ^ storage.type.clean
+//                             ^ comment.block.clean
+//                                      ^ storage.type.clean
+//                                               ^ comment.block.clean
+
+derive class iTasks Type1, Type2, /*comment*/ Type3 /*comment*/
+// ^ keyword.other.derive.clean
+//      ^ keyword.other.class.clean
+//             ^ entity.name.class.clean
+//                   ^ storage.type.clean
+//                           ^ storage.type.clean
+//                                    ^ comment.block.clean
+//                                             ^ storage.type.clean
+//                                                      ^ comment.block.clean
 
 
 
