@@ -143,7 +143,7 @@ contexts:
     - match: '(?=import)'
       pop: true
 ## ------------- Type -------------
-  type:
+  type_no_pop:
     - match: '(\.?\#?\!?\*?\[\#?\!?(?:{{type_name}})?\!?\])'
       captures:
         1: storage.type.clean
@@ -151,6 +151,10 @@ contexts:
       captures:
         1: storage.type.clean
     - include: basic_type
+  type:
+    - include: type_no_pop
+    - match: (?=$|;)
+      pop: true
   basic_type:
     - match: (\#)
       captures:
@@ -174,8 +178,6 @@ contexts:
       push: tuple_type
     - match: \{
       push: array_type
-    - match: (?=$|;)
-      pop: true
     - match: '(?=\})'       # We need the lookahead to see if it's a record
       pop: true
   tuple_type:
@@ -330,10 +332,10 @@ contexts:
       pop: true
     - match: ^(?=\b=\b)
       pop: true
-    - match: (?=\/\*)
-      pop: true
-    - match: (?=\/\/)
-      pop: true
+    # - match: (?=\/\*)
+    #   pop: true
+    # - match: (?=\/\/)
+    #   pop: true
   instance:
     - match: '^(instance)\s+({{class_name}})'
       scope: meta.instance.clean
@@ -421,58 +423,50 @@ contexts:
             - match: (?=&)
               pop: true
             - include: comments
-        - match: ($|;)
+        - match: (?=$|;)
           pop: true
 ## ------------- Type Declaration -------------
   type_decl:
-    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(\=)\s*(\.\.)' # Extendable ADTs
+    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)'
       captures:
         1: keyword.other.double-colon.clean
         2: entity.name.type.clean 
         3: variable.parameter.clean
-        4: keyword.other.clean
-        5: keyword.other.clean
       push:
         - meta_scope: meta.definition.type.clean
-        - match: $|;
-          pop: true
-    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(\=|\|)\s*'
-      captures:
-        1: keyword.other.double-colon.clean
-        2: entity.name.type.clean 
-        3: variable.parameter.clean
-        4: keyword.other.clean
-      push:
-        - meta_scope: meta.definition.type.clean
-        - match: \{
-          push:
-            - include: record_decl
-        - include: constructors
         - include: pop_if_new_decl
-    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)(:==)\s*'
-      captures:
-        1: keyword.other.double-colon.clean
-        2: entity.name.type.clean 
-        3: variable.parameter.clean
-        4: keyword.other.clean
-      push:
-        - meta_scope: meta.definition.type.clean
-        - match: \'({{upper_case_id}}|{{lower_case_id}})\'
+        - match: '(\:\=\=)'
           captures:
-            1: entity.name.namespace.clean
-        - include: type
-        - match: $|;
-          pop: true
-        - include: operators
-    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)$|;'
+            1: keyword.other.clean
+          push:
+            - match: \'({{upper_case_id}}|{{lower_case_id}})\'
+              captures:
+                1: entity.name.namespace.clean
+            - include: type
+            - match: $|;
+              pop: true
+            - include: operators
+        - match: '(\=|\|)'
+          captures:
+            1: keyword.other.clean
+          push:
+            - include: type_decl_body
+        - include: comments
+  type_decl_body:
+    - include: constructors
+    - include: pop_if_new_decl
+    - match: '(\.\.)'          # Extendable ADTs
       captures:
-        1: keyword.other.double-colon.clean
-        2: entity.name.type.clean 
-        3: variable.parameter.clean
+        1: keyword.other.clean
       push:
         - meta_scope: meta.definition.type.clean
+        - match: (?=$|;)
+          pop: true
+    - match: \{
+      push:
+        - include: record_body
         - include: pop_if_new_decl
-  record_decl:
+  record_body:
     - match: '\}'
       pop: true
     - include: function_type_decl
@@ -507,7 +501,6 @@ contexts:
       push:
         - meta_scope: meta.constructor.clean
         - include: pop_if_new_decl
-        - include: type
         - match: '({{lower_case_id}})'
           captures:
             1: variable.parameter.clean
@@ -515,8 +508,10 @@ contexts:
           captures:
             1: keyword.other.clean 
           pop: true
+        - include: type_no_pop
         - match: (?=\&)
           pop: true
+        - include: comments
   existential_constructor:
     - match: (E\.)
       captures:

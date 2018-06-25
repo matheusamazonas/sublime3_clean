@@ -160,6 +160,21 @@ import iTasks.Internal.SDS => qualified modify
 
 //<- source.clean
 
+:: MyType a
+//<-  keyword.other.double-colon.clean
+//   ^ entity.name.type.clean
+//        ^ variable.parameter.clean
+    = Cons1 Char
+//     ^ entity.name.constructor.clean
+//           ^ storage.type.clean
+    | Cons2 Int Bool a
+//  ^ keyword.other.clean
+//      ^ entity.name.constructor.clean
+//           ^ storage.type.clean
+//               ^ storage.type.clean
+//                   ^ variable.parameter.clean
+
+//<- source.clean
 
 // ------------- Instances -------------
 
