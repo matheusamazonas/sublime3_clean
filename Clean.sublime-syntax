@@ -275,7 +275,7 @@ contexts:
       push:
         - meta_scope: meta.declaration.function.clean
         - include: type_signature
-        - match: (?=$|;)
+        - match: (?=$|;|\,)
           pop: true
     - match: '\(({{func_name}})\)\s+(infix(?:r|l)?)\s+([0-9]+)\s*(::|∷)'
       scope: meta.declaration.function.clean
@@ -465,6 +465,7 @@ contexts:
     - match: \{
       push:
         - include: record_body
+        - include: comments
         - include: pop_if_new_decl
   record_body:
     - match: '\}'

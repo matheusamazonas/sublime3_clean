@@ -150,6 +150,7 @@ import iTasks.Internal.SDS => qualified modify
 // <- keyword.other.double-colon.clean
 //  ^ entity.name.type.clean
 //     ^ variable.parameter.clean
+//       ^ keyword.other.clean
 //         ^ entity.name.constructor.clean
 //             ^ storage.type.clean
 //                  ^ keyword.other.arrow.clean
@@ -173,6 +174,48 @@ import iTasks.Internal.SDS => qualified modify
 //           ^ storage.type.clean
 //               ^ storage.type.clean
 //                   ^ variable.parameter.clean
+
+//<- source.clean
+
+:: TCPSettings = { host :: String , port :: Int }
+//<- keyword.other.double-colon.clean
+//    ^ entity.name.type.clean
+//             ^ keyword.other.clean
+//                  ^ entity.name.function.clean
+//                      ^ keyword.other.double-colon.clean
+//                            ^ storage.type.clean
+//                                  ^ entity.name.function.clean
+//                                       ^ keyword.other.double-colon.clean
+//                                          ^ storage.type.clean
+//                                            ^ meta.definition.type.clean
+
+//<- source.clean
+
+:: BCShare =
+//<- keyword.other.double-colon.clean
+//    ^ entity.name.type.clean
+//         ^ keyword.other.clean
+    { sdsi :: Int
+//     ^ entity.name.function.clean
+//         ^ keyword.other.double-colon.clean
+//             ^ storage.type.clean
+    , sdsname :: String
+//       ^ entity.name.function.clean
+//            ^ keyword.other.double-colon.clean
+//                 ^ storage.type.clean
+    //TODO fix lens
+//    ^ comment.line.clean 
+    , sdsval :: Either BCValue (SDS Bool BCValue BCValue)
+//       ^ entity.name.function.clean
+//           ^ keyword.other.double-colon.clean
+//                 ^ storage.type.clean
+//                       ^ storage.type.clean
+//                               ^ storage.type.clean
+//                                   ^ storage.type.clean
+//                                         ^ storage.type.clean
+//                                                 ^ storage.type.clean
+    }
+//<- meta.definition.type.clean
 
 //<- source.clean
 
@@ -252,8 +295,6 @@ derive class iTasks Type1, Type2, /*comment*/ Type3 /*comment*/
 //                                    ^ comment.block.clean
 //                                             ^ storage.type.clean
 //                                                      ^ comment.block.clean
-
-
 
 
 
