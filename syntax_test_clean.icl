@@ -113,7 +113,7 @@ import iTasks.Internal.SDS => qualified modify
 
 //<- source.clean
 
-:: Type a b c = E.a: (==.) infix 4  (Expression a)  (Expression a) &  == a
+:: Type a b c = E.a: (==.) infix 4  (Expression a)  (Expression a) &  == a | Cons7 Bool
 // <- keyword.other.double-colon.clean
 //   ^ entity.name.type.clean
 //      ^ variable.parameter.clean
@@ -135,6 +135,35 @@ import iTasks.Internal.SDS => qualified modify
 //                                                                  ^ meta.exist_constraint.clean
 //                                                                     ^ entity.name.class.clean
 //                                                                       ^ variable.parameter.clean
+//                                                                         ^ keyword.other.clean
+//                                                                             ^ entity.name.constructor.clean
+//                                                                                  ^ storage.type.clean
+
+//<- source.clean
+
+
+:: Step v t = E.p.q: Cond (v Bool q) (v t p) | E.p: Ever (v t p)
+// <- keyword.other.double-colon.clean
+//   ^ entity.name.type.clean
+//      ^ variable.parameter.clean
+//        ^ variable.parameter.clean
+//            ^ keyword.existential.clean
+//              ^ variable.parameter.clean
+//                ^ variable.parameter.clean
+//                    ^ entity.name.constructor.clean
+//                         ^ variable.parameter.clean
+//                            ^ storage.type.clean
+//                                ^ variable.parameter.clean
+//                                    ^ variable.parameter.clean
+//                                      ^ variable.parameter.clean
+//                                        ^ variable.parameter.clean
+//                                           ^ keyword.other.clean
+//                                             ^ keyword.existential.clean
+//                                               ^ variable.parameter.clean
+//                                                   ^ entity.name.constructor.clean
+//                                                        ^ variable.parameter.clean
+//                                                          ^ variable.parameter.clean
+//                                                            ^ variable.parameter.clean
 
 //<- source.clean
 

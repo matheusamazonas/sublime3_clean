@@ -476,6 +476,9 @@ contexts:
     - include: existential_constructor
     - include: infix_constructor
     - include: normal_constructor
+    - match: (\|)
+      captures:
+        1: keyword.other.clean 
   infix_constructor:
     - match: '(?:\()?({{func_name}})(?:\))?\s+(infix(?:r|l)?)\s+([0-9]+)\s*'
       captures:
@@ -489,9 +492,7 @@ contexts:
         - match: '({{lower_case_id}})'
           captures:
             1: variable.parameter.clean
-        - match: (\|)
-          captures:
-            1: keyword.other.clean 
+        - match: (?=\|)
           pop: true
         - match: (?=\&)
           pop: true
@@ -505,9 +506,7 @@ contexts:
         - match: '({{lower_case_id}})'
           captures:
             1: variable.parameter.clean
-        - match: (\|)
-          captures:
-            1: keyword.other.clean 
+        - match: (?=\|)
           pop: true
         - include: type_no_pop
         - match: (?=\&)
@@ -524,6 +523,10 @@ contexts:
         - match: '(:)'
           captures:
             1: keyword.colon.clean
+        - match: (\|)
+          captures:
+            1: keyword.other.clean 
+          pop: true
         - include: exist_type_constraint
         - include: normal_constructor
         - include: infix_constructor
@@ -549,6 +552,10 @@ contexts:
                 1: variable.parameter.clean
             - match: ($|;)
               pop: true
+            - match: (?=\|)
+              pop: true
+        - match: (?=\|)
+          pop: true
         - match: (?=$|;)
           pop: true
 ## ------------- Keyword -------------
