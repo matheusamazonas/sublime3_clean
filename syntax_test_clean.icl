@@ -164,6 +164,17 @@ import iTasks.Internal.SDS => qualified modify
 //                                                        ^ variable.parameter.clean
 //                                                          ^ variable.parameter.clean
 //                                                            ^ variable.parameter.clean
+class assign v where			// This example is here to test for a new declaration after an existential ADT
+// ^ keyword.other.class.clean
+//      ^ entity.name.class.clean
+//           ^ variable.parameter.clean
+//               ^ keyword.other.where.clean
+  test :: a -> Bool
+ // ^ entity.name.function.clean
+ //    ^ keyword.other.double-colon.clean
+ //       ^ variable.parameter.clean
+ //         ^ keyword.other.arrow.clean
+ //             ^ storage.type.clean 
 
 //<- source.clean
 
