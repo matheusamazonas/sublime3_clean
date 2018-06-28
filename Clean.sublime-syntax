@@ -405,11 +405,15 @@ contexts:
             1: entity.name.class.clean
         - match: (?=where)  
           pop: true
-        - match: ({{constraint_name}})\s+({{lower_case_id}})\s*
+        - match: '(?=::)'
+          pop: true
+        - match: ({{constraint_name}})
           captures: 
             1: entity.name.class.clean
             2: variable.parameter.clean
           push:
+            - match: '(?=::)'
+              pop: true
             - match: (?=where)
               captures:
                 1: keyword.other.where.clean
@@ -422,11 +426,7 @@ contexts:
             - match: (?=&)
               pop: true
             - include: comments
-            - match: '(?=::)'
-              pop: true
         - match: (?=$|;)
-          pop: true
-        - match: '(?=::)'
           pop: true
 ## ------------- Type Declaration -------------
   type_decl:

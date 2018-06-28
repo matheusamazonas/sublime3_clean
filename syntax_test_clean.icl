@@ -354,6 +354,8 @@ class toString t where
 //                ^ keyword.other.arrow.clean
 //                     ^ storage.type.clean
 
+//<- source.clean
+
 class print t | toString t where
 //<- keyword.other.class.clean
 //      ^ entity.name.class.clean
@@ -369,6 +371,8 @@ class print t | toString t where
 //             ^ keyword.other.arrow.clean
 //                  ^ storage.type.clean
 
+//<- source.clean
+
 class == t :: t t -> Bool
 //<- keyword.other.class.clean
 //    ^ entity.name.class.clean
@@ -378,6 +382,8 @@ class == t :: t t -> Bool
 //              ^ variable.parameter.clean
 //                ^ keyword.other.arrow.clean
 //                    ^ storage.type.clean
+
+//<- source.clean
 
 class stringQuotes t | type t :: (Code t p) -> Code t p
 //<- keyword.other.class.clean
@@ -394,6 +400,24 @@ class stringQuotes t | type t :: (Code t p) -> Code t p
 //                                               ^ storage.type.clean
 //                                                  ^ variable.parameter.clean
 //                                                    ^ variable.parameter.clean
+
+//<- source.clean
+
+class lalala t | toString /*comment*/ t where
+//<- keyword.other.class.clean
+//      ^ entity.name.class.clean
+//           ^ variable.parameter.clean
+//             ^ keyword.other.given-that.clean
+//                  ^ entity.name.class.clean
+//                             ^ comment.block.clean
+//                                    ^ variable.parameter.clean
+//                                        ^ keyword.other.where.clean
+    lala :: t -> Bool
+//   ^ entity.name.function.clean
+//       ^ keyword.other.double-colon.clean
+//          ^ variable.parameter.clean
+//            ^ keyword.other.arrow.clean
+//                ^ storage.type.clean
 
 //<- source.clean
 
