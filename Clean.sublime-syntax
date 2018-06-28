@@ -289,7 +289,7 @@ contexts:
         - match: (?=$|;)
           pop: true
   class_decl:
-    - match: '^(class)\s+({{class_name}})\s+'
+    - match: '^(class)\s+({{class_name}})'
       scope: meta.class.clean
       captures:
         1: keyword.other.class.clean
@@ -318,6 +318,7 @@ contexts:
         1: keyword.other.class.clean
         2: entity.name.class.clean
       push:
+        - include: constraint
         - include: function_type_decl
         - match: (?=$|;)
           pop: true
@@ -421,7 +422,11 @@ contexts:
             - match: (?=&)
               pop: true
             - include: comments
+            - match: '(?=::)'
+              pop: true
         - match: (?=$|;)
+          pop: true
+        - match: '(?=::)'
           pop: true
 ## ------------- Type Declaration -------------
   type_decl:

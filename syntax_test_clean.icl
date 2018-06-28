@@ -326,6 +326,8 @@ derive gText Type1, Type2, /*comment*/ Type3 /*comment*/
 //                                      ^ storage.type.clean
 //                                               ^ comment.block.clean
 
+//<- source.clean
+
 derive class iTasks Type1, Type2, /*comment*/ Type3 /*comment*/
 // ^ keyword.other.derive.clean
 //      ^ keyword.other.class.clean
@@ -335,6 +337,74 @@ derive class iTasks Type1, Type2, /*comment*/ Type3 /*comment*/
 //                                    ^ comment.block.clean
 //                                             ^ storage.type.clean
 //                                                      ^ comment.block.clean
+
+//<- source.clean
+
+// ------------- Class -------------
+
+class toString t where
+//<- keyword.other.class.clean
+//      ^ entity.name.class.clean
+//             ^ variable.parameter.clean
+//                ^ keyword.other.where.clean
+    toString :: t -> String
+//     ^ entity.name.function.clean
+//           ^ keyword.other.double-colon.clean
+//              ^ variable.parameter.clean
+//                ^ keyword.other.arrow.clean
+//                     ^ storage.type.clean
+
+class print t | toString t where
+//<- keyword.other.class.clean
+//      ^ entity.name.class.clean
+//          ^ variable.parameter.clean
+//            ^ keyword.other.given-that.clean
+//                 ^ entity.name.class.clean
+//                       ^ variable.parameter.clean
+//                           ^ keyword.other.where.clean
+    print :: t -> String
+//    ^ entity.name.function.clean
+//        ^ keyword.other.double-colon.clean
+//           ^ variable.parameter.clean
+//             ^ keyword.other.arrow.clean
+//                  ^ storage.type.clean
+
+class == t :: t t -> Bool
+//<- keyword.other.class.clean
+//    ^ entity.name.class.clean
+//       ^ variable.parameter.clean
+//         ^ keyword.other.double-colon.clean
+//            ^ variable.parameter.clean
+//              ^ variable.parameter.clean
+//                ^ keyword.other.arrow.clean
+//                    ^ storage.type.clean
+
+class stringQuotes t | type t :: (Code t p) -> Code t p
+//<- keyword.other.class.clean
+//        ^ entity.name.class.clean
+//                 ^ variable.parameter.clean
+//                   ^ keyword.other.given-that.clean
+//                      ^ entity.name.class.clean
+//                          ^ variable.parameter.clean
+//                             ^ keyword.other.double-colon.clean
+//                                 ^ storage.type.clean
+//                                     ^ variable.parameter.clean
+//                                       ^ variable.parameter.clean
+//                                          ^ keyword.other.arrow.clean
+//                                               ^ storage.type.clean
+//                                                  ^ variable.parameter.clean
+//                                                    ^ variable.parameter.clean
+
+//<- source.clean
+
+
+
+
+
+
+
+
+
 
 
 
