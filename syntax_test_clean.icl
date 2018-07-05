@@ -2,32 +2,42 @@
 
 // ------------- Imports -------------
 
-import Language.HB
+import Language.HB // this is a comment
 // ^ keyword.control.import.clean
 //    ^ meta.import.simple.clean
 //        ^ entity.name.namespace.clean
+//                     ^ comment.line.clean
 
-import module1, module2
+import module1, module2 // this is a comment
 // ^ keyword.control.import.clean
 //    ^ meta.import.simple.clean
 //        ^ entity.name.namespace.clean
 //                ^ entity.name.namespace.clean
+//                            ^ comment.line.clean
 
+import Code  // this is a comment
+// ^ keyword.control.import.clean
+//    ^ meta.import.simple.clean
+//        ^ entity.name.namespace.clean
+//                  ^ comment.line.clean
 
-from Data.Maybe import :: Maybe
+from Data.Maybe import :: Maybe // this is a comment
 // ^ keyword.control.from.clean
 //        ^ entity.name.namespace.clean
 //                ^ keyword.control.import.clean
 //                     ^ keyword.other.double-colon.clean
 //                          ^ storage.type.clean
+//                                        ^ comment.line.clean
 
-from iTasks.WF.Definition import class iTask
+from iTasks.WF.Definition import class iTask // this is a comment
 //        ^ entity.name.namespace.clean
 //                                      ^ entity.name.class.clean
+//                                               ^ comment.line.clean
 
-from Data.GenDefault import generic gDefault
+from Data.GenDefault import generic gDefault // this is a comment
 //        ^ entity.name.namespace.clean
 //                             ^ keyword.other.generic.clean
+//                                                  ^ comment.line.clean
 
 from Data.List import instance Foldable [Int]
 //        ^ entity.name.namespace.clean
@@ -49,7 +59,7 @@ from Data.List import instance Foldable Maybe
 //                                ^ entity.name.class.clean
 //                                       ^ storage.type.clean
 
-from Data.List import tail, instance Foldable [], replaceInList, replicate
+from Data.List import tail, instance Foldable [], replaceInList, replicate // this is a comment
 // ^ keyword.control.from.clean
 //        ^ entity.name.namespace.clean
 //                ^ keyword.control.import.clean
@@ -58,19 +68,22 @@ from Data.List import tail, instance Foldable [], replaceInList, replicate
 //                                            ^ storage.type.clean
 //                                                    ^ source.clean
 //                                                                  ^ source.clean
+//                                                                                   ^ comment.line.clean
 
-import qualified Data.List as DL
+import qualified Data.List as DL  // this is a comment 
 // ^ keyword.control.import.clean
 //       ^ keyword.control.qualified.clean
 //                 ^ entity.name.namespace.clean
 //                         ^ keyword.control.as.clean
 //                            ^ entity.name.namespace.clean
+//                                        ^ comment.line.clean
 
-import iTasks.Internal.SDS => qualified modify
+import iTasks.Internal.SDS => qualified modify // this is a comment
 // ^ keyword.control.import.clean
 //        ^ entity.name.namespace.clean
 //                         ^ keyword.control.hidden.clean
 //                              ^ keyword.control.qualified.clean
+//                                                ^ comment.line.clean
 
 // ------------- ADTs -------------
 

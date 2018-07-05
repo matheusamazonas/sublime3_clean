@@ -71,6 +71,7 @@ contexts:
         - match: ({{module_name}})
           captures:
             1: entity.name.namespace.clean
+        - include: comments
         - match: $|;
           pop: true
   from_import:
