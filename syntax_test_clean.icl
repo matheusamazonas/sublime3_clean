@@ -116,6 +116,16 @@ import iTasks.Internal.SDS => qualified modify // this is a comment
 
 //<- source.clean
 
+:: *TypeX (:== Int)
+// <- keyword.other.double-colon.clean
+// ^ keyword.other.unique.clean
+//   ^ entity.name.type.clean
+//       ^ meta.definition.type.clean
+//          ^ keyword.other.synonym.clean
+//              ^ storage.type.clean
+
+//<- source.clean
+
 :: SimpleType = Cons1 | Cons2 Int 
 // <- keyword.other.double-colon.clean
 //   ^ entity.name.type.clean
@@ -194,6 +204,7 @@ class assign v where			// This example is here to test for a new declaration aft
 :: Set :== Expression [Int]
 // <- keyword.other.double-colon.clean
 //   ^ entity.name.type.clean
+//      ^ keyword.other.synonym.clean
 //              ^ storage.type.clean
 //                      ^ storage.type.clean
 

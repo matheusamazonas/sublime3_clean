@@ -431,17 +431,18 @@ contexts:
           pop: true
 ## ------------- Type Declaration -------------
   type_decl:
-    - match: '^(::)\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)'
+    - match: '^(::)\s*(\*)?\s*({{upper_case_id}})\s*((?:{{lower_case_id}}\s*)*)'
       captures:
         1: keyword.other.double-colon.clean
-        2: entity.name.type.clean 
-        3: variable.parameter.clean
+        2: keyword.other.unique.clean
+        3: entity.name.type.clean 
+        4: variable.parameter.clean
       push:
         - meta_scope: meta.definition.type.clean
         - include: pop_if_new_decl
         - match: '(\:\=\=)'
           captures:
-            1: keyword.other.clean
+            1: keyword.other.synonym.clean
           push:
             - match: \'({{upper_case_id}}|{{lower_case_id}})\'
               captures:
