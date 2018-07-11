@@ -445,6 +445,23 @@ class lalala t | toString /*comment*/ t where
 
 //<- source.clean
 
+// ------------- Functions -------------
+
+viewDevTasks :: ('DM'.Map Int Bool) -> Task ()
+// ^ entity.name.function.clean
+//           ^ keyword.other.double-colon.clean
+//                ^ entity.name.namespace.clean
+//                    ^ storage.type.clean
+//                         ^ storage.type.clean
+//                             ^ storage.type.clean
+//                                 ^ meta.declaration.function.clean
+//                                  ^ keyword.other.arrow.clean
+//                                      ^ storage.type.clean
+//                                          ^ storage.type.clean
+
+//<- source.clean
+
+
 // ------------- General -------------
 
 :: Store :== 'Map'.Map Name Gram
@@ -456,9 +473,12 @@ class lalala t | toString /*comment*/ t where
 //                      ^ storage.type.clean
 //                            ^ storage.type.clean
 
+//<- source.clean
 
 test sm = 'DM'.mapWithKey id sm
 //         ^ entity.name.namespace.clean
+
+//<- source.clean
 
 
 

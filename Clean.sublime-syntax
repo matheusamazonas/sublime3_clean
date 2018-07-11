@@ -158,6 +158,7 @@ contexts:
     - match: (?=$|;)
       pop: true
   basic_type:
+    - include: explicit_module
     - match: (\#)
       captures:
         1: keyword.other.unboxed.clean
