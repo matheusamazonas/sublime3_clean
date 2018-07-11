@@ -620,7 +620,7 @@ contexts:
       captures:
         1: keyword.operator.clean
   explicit_module:
-     - match: \'({{upper_case_id}}|{{lower_case_id}})\'
+     - match: \'({{upper_case_id}}|{{lower_case_id}})\'\.
        captures:
          1: entity.name.namespace.clean
 

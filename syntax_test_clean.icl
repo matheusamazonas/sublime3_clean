@@ -480,6 +480,12 @@ test sm = 'DM'.mapWithKey id sm
 
 //<- source.clean
 
+c = 'Ca'                // Explicit modules must have a period after them
+//    ^ source.clean
+
+//<- source.clean
+
+
 
 
 
