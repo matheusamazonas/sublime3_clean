@@ -445,13 +445,20 @@ class lalala t | toString /*comment*/ t where
 
 //<- source.clean
 
+// ------------- General -------------
+
+:: Store :== 'Map'.Map Name Gram
+//<- keyword.other.double-colon.clean
+//  ^ entity.name.type.clean
+//        ^ keyword.other.synonym.clean
+//             ^ entity.name.namespace.clean
+//                  ^ storage.type.clean
+//                      ^ storage.type.clean
+//                            ^ storage.type.clean
 
 
-
-
-
-
-
+test sm = 'DM'.mapWithKey id sm
+//         ^ entity.name.namespace.clean
 
 
 

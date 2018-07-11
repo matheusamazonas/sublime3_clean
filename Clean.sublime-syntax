@@ -37,6 +37,7 @@ contexts:
     - include: local_def_keywords
     - include: operators
     - include: basic_types
+    - include: explicit_module
     - include: open_brackets
 ## ------------- Import -------------
   imports:
@@ -444,9 +445,7 @@ contexts:
           captures:
             1: keyword.other.synonym.clean
           push:
-            - match: \'({{upper_case_id}}|{{lower_case_id}})\'
-              captures:
-                1: entity.name.namespace.clean
+            - include: explicit_module
             - include: type
             - match: $|;
               pop: true
@@ -619,5 +618,9 @@ contexts:
     - match: '({{operator}})'
       captures:
         1: keyword.operator.clean
+  explicit_module:
+     - match: \'({{upper_case_id}}|{{lower_case_id}})\'
+       captures:
+         1: entity.name.namespace.clean
 
 
