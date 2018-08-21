@@ -493,3 +493,13 @@ test = 2 * 4 */
 //         ^ constant.numeric.integer.clean
 //           ^ invalid.illegal.stray-block-comment-end
 
+//<<- source.clean
+
+test = 4 }
+//<- source.clean
+//   ^ keyword.operator.clean
+//     ^ constant.numeric.integer.clean
+//       ^ invalid.illegal.stray-curly-end
+
+
+

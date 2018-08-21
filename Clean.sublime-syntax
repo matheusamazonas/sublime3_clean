@@ -39,6 +39,7 @@ contexts:
     - include: basic_types
     - include: explicit_module
     - include: open_brackets
+    - include: open_curly
 ## ------------- Import -------------
   imports:
     - include: hidden_import
@@ -619,6 +620,15 @@ contexts:
       scope: invalid.illegal.stray-bracket-end
   close_brackets:
     - match: \)
+      pop: true
+    - include: main
+  open_curly:
+    - match: \{
+      push: close_brackets
+    - match: \}
+      scope: invalid.illegal.stray-curly-end
+  close_curly:
+    - match: \}
       pop: true
     - include: main
   operators:
