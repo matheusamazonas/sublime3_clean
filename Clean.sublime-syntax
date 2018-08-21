@@ -237,6 +237,7 @@ contexts:
   comments:
     - include: line_comments
     - include: block_comments
+    - include: stray_block_comment_end
   line_comments:
     - match: (\/\/)
       captures:
@@ -255,6 +256,11 @@ contexts:
           captures:
             1: punctuation.definition.comment.clean
           pop: true
+  stray_block_comment_end:
+    - match: (\*\/)
+      captures:
+        1: invalid.illegal.stray-block-comment-end
+
 ## ------------- Declaration -------------
   module_declaration:
     - match: ^(implementation|definition|system)

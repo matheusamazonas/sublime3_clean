@@ -485,7 +485,11 @@ c = 'Ca'                // Explicit modules must have a period after them
 
 //<- source.clean
 
-
-
-
+test = 2 * 4 */
+//<- source.clean
+//   ^ keyword.operator.clean
+//     ^ constant.numeric.integer.clean
+//       ^ keyword.operator.clean
+//         ^ constant.numeric.integer.clean
+//           ^ invalid.illegal.stray-block-comment-end
 
