@@ -500,6 +500,17 @@ test = 4 }
 //   ^ keyword.operator.clean
 //     ^ constant.numeric.integer.clean
 //       ^ invalid.illegal.stray-curly-end
+//<<- source.clean
+
+test = { field1 = 42 }
+//<- source.clean
+//   ^ keyword.operator.clean
+//     ^ source.clean
+//              ^ keyword.operator.clean
+//                ^ constant.numeric.integer.clean 
+//                   ^ source.clean
+//<<- source.clean
+
 
 
 

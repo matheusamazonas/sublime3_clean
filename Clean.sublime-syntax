@@ -624,7 +624,7 @@ contexts:
     - include: main
   open_curly:
     - match: \{
-      push: close_brackets
+      push: close_curly
     - match: \}
       scope: invalid.illegal.stray-curly-end
   close_curly:
