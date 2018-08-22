@@ -474,8 +474,9 @@ contexts:
         - meta_scope: meta.definition.type.clean
         - match: (?=$|;)
           pop: true
-    - match: \{
+    - match: (?=\{)
       push:
+        - include: open_curly
         - include: record_body
         - include: comments
         - include: pop_if_new_decl

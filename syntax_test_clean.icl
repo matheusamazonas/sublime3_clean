@@ -88,7 +88,8 @@ import iTasks.Internal.SDS => qualified modify // this is a comment
 // ------------- ADTs -------------
 
 :: Abstract a
-// <- keyword.other.double-colon.clean
+//<- keyword.other.double-colon.clean
+//<- meta.definition.type.clean
 //   ^ entity.name.type.clean
 //^ meta.definition.type.clean
 //         ^ meta.definition.type.clean
@@ -97,7 +98,8 @@ import iTasks.Internal.SDS => qualified modify // this is a comment
 //<- source.clean
 
 :: ExtADT = ..
-// <- keyword.other.double-colon.clean
+//<- keyword.other.double-colon.clean
+//<- meta.definition.type.clean
 //   ^ entity.name.type.clean
 //        ^ keyword.other.clean
 //          ^ keyword.other.clean
@@ -105,7 +107,8 @@ import iTasks.Internal.SDS => qualified modify // this is a comment
 //<- source.clean
 
 :: ExtAdt | A Int | B Bool
-// <- keyword.other.double-colon.clean
+//<- keyword.other.double-colon.clean
+//<- meta.definition.type.clean
 //   ^ entity.name.type.clean
 //        ^ keyword.other.clean
 //          ^ entity.name.constructor.clean
@@ -117,7 +120,8 @@ import iTasks.Internal.SDS => qualified modify // this is a comment
 //<- source.clean
 
 :: *TypeX (:== Int)
-// <- keyword.other.double-colon.clean
+//<- keyword.other.double-colon.clean
+//<- meta.definition.type.clean
 // ^ keyword.other.unique.clean
 //   ^ entity.name.type.clean
 //       ^ meta.definition.type.clean
@@ -127,7 +131,8 @@ import iTasks.Internal.SDS => qualified modify // this is a comment
 //<- source.clean
 
 :: SimpleType = Cons1 | Cons2 Int 
-// <- keyword.other.double-colon.clean
+//<- keyword.other.double-colon.clean
+//<- meta.definition.type.clean
 //   ^ entity.name.type.clean
 //                ^ entity.name.constructor.clean
 //                    ^ keyword.other.clean
@@ -137,7 +142,8 @@ import iTasks.Internal.SDS => qualified modify // this is a comment
 //<- source.clean
 
 :: Type a b c = E.a: (==.) infix 4  (Expression a)  (Expression a) &  == a | Cons7 Bool
-// <- keyword.other.double-colon.clean
+//<- keyword.other.double-colon.clean
+//<- meta.definition.type.clean
 //   ^ entity.name.type.clean
 //      ^ variable.parameter.clean
 //        ^ variable.parameter.clean
@@ -166,7 +172,8 @@ import iTasks.Internal.SDS => qualified modify // this is a comment
 
 
 :: Step v t = E.p.q: Cond (v Bool q) (v t p) | E.p: Ever (v t p)
-// <- keyword.other.double-colon.clean
+//<- keyword.other.double-colon.clean
+//<- meta.definition.type.clean
 //   ^ entity.name.type.clean
 //      ^ variable.parameter.clean
 //        ^ variable.parameter.clean
@@ -202,7 +209,8 @@ class assign v where			// This example is here to test for a new declaration aft
 //<- source.clean
 
 :: Set :== Expression [Int]
-// <- keyword.other.double-colon.clean
+//<- keyword.other.double-colon.clean
+//<- meta.definition.type.clean
 //   ^ entity.name.type.clean
 //      ^ keyword.other.synonym.clean
 //              ^ storage.type.clean
@@ -211,7 +219,8 @@ class assign v where			// This example is here to test for a new declaration aft
 //<- source.clean
 
 :: Sem a = S (State -> (a, State))
-// <- keyword.other.double-colon.clean
+//<- keyword.other.double-colon.clean
+//<- meta.definition.type.clean
 //  ^ entity.name.type.clean
 //     ^ variable.parameter.clean
 //       ^ keyword.other.clean
@@ -227,6 +236,7 @@ class assign v where			// This example is here to test for a new declaration aft
 
 :: MyType a
 //<-  keyword.other.double-colon.clean
+//<- meta.definition.type.clean
 //   ^ entity.name.type.clean
 //        ^ variable.parameter.clean
     = Cons1 Char
@@ -242,6 +252,7 @@ class assign v where			// This example is here to test for a new declaration aft
 //<- source.clean
 
 :: TCPSettings = { host :: String , port :: Int }
+//<- meta.definition.type.clean
 //<- keyword.other.double-colon.clean
 //    ^ entity.name.type.clean
 //             ^ keyword.other.clean
@@ -257,16 +268,19 @@ class assign v where			// This example is here to test for a new declaration aft
 
 :: BCShare =
 //<- keyword.other.double-colon.clean
+//<- meta.definition.type.clean
 //    ^ entity.name.type.clean
 //         ^ keyword.other.clean
     { sdsi :: Int
 //     ^ entity.name.function.clean
 //         ^ keyword.other.double-colon.clean
 //             ^ storage.type.clean
+//                  ^ meta.definition.type.clean
     , sdsname :: String
 //       ^ entity.name.function.clean
 //            ^ keyword.other.double-colon.clean
 //                 ^ storage.type.clean
+//                         ^ meta.definition.type.clean
     //TODO fix lens
 //    ^ comment.line.clean 
     , sdsval :: Either BCValue (SDS Bool BCValue BCValue)
@@ -278,6 +292,7 @@ class assign v where			// This example is here to test for a new declaration aft
 //                                   ^ storage.type.clean
 //                                         ^ storage.type.clean
 //                                                 ^ storage.type.clean
+//                                                             ^ meta.definition.type.clean
     }
 //<- meta.definition.type.clean
 
@@ -466,6 +481,7 @@ viewDevTasks :: ('DM'.Map Int Bool) -> Task ()
 
 :: Store :== 'Map'.Map Name Gram
 //<- keyword.other.double-colon.clean
+//<- meta.definition.type.clean
 //  ^ entity.name.type.clean
 //        ^ keyword.other.synonym.clean
 //             ^ entity.name.namespace.clean
@@ -502,7 +518,7 @@ test = 4 }
 //       ^ invalid.illegal.stray-curly-end
 //<<- source.clean
 
-test = { field1 = 42 }
+test = { field1 = 42  }
 //<- source.clean
 //   ^ keyword.operator.clean
 //     ^ source.clean
@@ -510,6 +526,24 @@ test = { field1 = 42 }
 //                ^ constant.numeric.integer.clean 
 //                   ^ source.clean
 //<<- source.clean
+
+:: MyType = {
+//<- keyword.other.double-colon.clean
+//<- meta.definition.type.clean
+//   ^ entity.name.type.clean
+//        ^ keyword.other.clean
+//          ^ meta.definition.type.clean
+    ex :: Int
+//<- meta.definition.type.clean
+//  ^ entity.name.function.clean
+//  ^ meta.declaration.function.clean
+//     ^ keyword.other.double-colon.clean
+//         ^ storage.type.clean
+//                ^ meta.definition.type.clean
+	}
+//  ^ meta.definition.type.clean
+//    ^ source.clean
+//<- source.clean
 
 
 
