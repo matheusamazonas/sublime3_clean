@@ -1,3 +1,3 @@
 [
-	{ "keys": ["super+alt+up"], "command": "switch_files" }
+	{ "keys": ["super+alt+i"], "command": "switch_files" }
 ]
