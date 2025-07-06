@@ -1,4 +1,4 @@
 {
 		"selector": "source.clean",
-	    "target": "clean_compile"
+		"target": "clean_compile"
 }

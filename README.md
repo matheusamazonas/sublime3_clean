@@ -1,8 +1,6 @@
 # Sublime Text 3 Package for Clean
 A [Sublime Text 3](https://www.sublimetext.com) package for the functional programming language [Clean](http://clean.cs.ru.nl/Clean).
 
-Linux and macOS: [![Build Status](https://travis-ci.com/matheusamazonas/sublime3_clean.svg?branch=master)](https://travis-ci.com/matheusamazonas/sublime3_clean)
-
 I decided to restart the package from scratch instead of just adapting the Haskell one. So far, the build system and the syntax are mostly done and currently I'm working on tests, snippets and improving the syntax. The plugin is still under development, but on a slow pace.
 
 Future plans (way down the road) include Cloogle integration.
