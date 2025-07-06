@@ -1,8 +1,6 @@
 # Sublime Text 3 Package for Clean
 A [Sublime Text 3](https://www.sublimetext.com) package for the functional programming language [Clean](http://clean.cs.ru.nl/Clean).
 
-Linux and macOS: [![Build Status](https://travis-ci.com/matheusamazonas/sublime3_clean.svg?branch=master)](https://travis-ci.com/matheusamazonas/sublime3_clean)
-
 I decided to restart the package from scratch instead of just adapting the Haskell one. So far, the build system and the syntax are mostly done and currently I'm working on tests, snippets and improving the syntax. The plugin is still under development, but on a slow pace.
 
 Future plans (way down the road) include Cloogle integration.
@@ -16,16 +14,16 @@ Features
 Installation
 -------------
 #### Automated
-* macOS X: simply run `install.sh`.
+* macOS: simply run `install.sh`.
 * Windows and Linux: no automated installation yet. Check manual installation.
 
 #### Manual
 If the installation script fails, you can still install the package manually. Compress the `Clean` folder to a `zip` file, change its extension to ".sublime-package" and copy it. Navigate to the sublime data path (OS dependent, see below) and paste it in `<data_path>/Installed Packages`
 
 Data paths:
-* macOS X: `~/Library/Application Support/Sublime Text 3/`
-* Windows: `%APPDATA%\Sublime Text 3\`
-* Linux: `~/.config/sublime-text-3/`
+* macOS: `~/Library/Application Support/Sublime Text`
+* Windows: `%APPDATA%\Sublime Text`
+* Linux: `~/.config/sublime-text/`
 
 Finally, restart Sublime and all the package features should be enabled.
 

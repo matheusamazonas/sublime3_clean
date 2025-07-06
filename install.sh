@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # If it was installed locally (current user), this should be the directory
-user_dir="$HOME/Library/Application Support/Sublime Text 3/Installed Packages"
+user_dir="$HOME/Library/Application Support/Sublime Text/Installed Packages"
 # If it was installed in a custom directory, place it here (until the Packages folder, see above)
 custom_dir=""
 
